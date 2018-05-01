@@ -102,7 +102,7 @@ seeds_3topics = best_ntopic %>%
 
 # choose seed with highest log likelihood for all following analyses
 #    (also produces plot of community composition for 'best' run compared to 'worst')
-best_seed = calculate_LDA_distance(dat,seeds_3topics, 3)
+best_seed = calculate_LDA_distance(dat,seeds_3topics,3)
 mean_dist = unlist(best_seed)[2]
 max_dist = unlist(best_seed)[3]
 
