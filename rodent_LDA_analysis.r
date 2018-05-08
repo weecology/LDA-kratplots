@@ -24,10 +24,23 @@ source('LDA-distance.R')
 # ===================================================================
 # 1. prepare rodent data
 # ===================================================================
-dat = create_rodent_table(period_first = 1,
-                          period_last = 436,
-                          selected_plots = c(2,4,8,11,12,14,17,22),
-                          selected_species = c('BA','DM','DO','DS','NA','OL','OT','PB','PE','PF','PH','PI','PL','PM','PP','RF','RM','RO','SF','SH','SO'))
+# for controls: 
+# dat = create_rodent_table(period_first = 1,
+#                           period_last = 436,
+#                           selected_plots = c(2,4,8,11,12,14,17,22),
+#                           selected_species = c('BA','DM','DO','DS','NA','OL','OT','PB','PE','PF','PH','PI','PL','PM','PP','RF','RM','RO','SF','SH','SO'))
+
+# for exclosures: 
+source('rodent_data_from_portalr.R')
+
+dat = get_exclosure_rodents()
+
+datsums = vector(length =nrow(dat))
+for(i in 1:nrow(dat)) {
+  datsums[i] = sum(dat[i,])
+}
+
+dat = dat[ which(datsums >= 1), ]
 
 # dates to go with count data
 moondat = read.csv(text=getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/moon_dates.csv"),stringsAsFactors = F)
@@ -53,6 +66,8 @@ best_ntopic = repeat_VEM(dat,
 
 # histogram of how many seeds chose how many topics
 hist(best_ntopic$k,breaks=c(0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5),xlab='best # of topics', main='')
+# for 118:436, 3 and 4 topics are very close.
+
 
 # ==================================================================
 # 2b. how different is species composition of 4 community-types when LDA is run with different seeds?
@@ -66,7 +81,7 @@ seeds_4topics = best_ntopic %>%
 
 # choose seed with highest log likelihood for all following analyses
 #    (also produces plot of community composition for 'best' run compared to 'worst')
-best_seed = calculate_LDA_distance(dat,seeds_4topics)
+best_seed = calculate_LDA_distance(dat,seeds_4topics, k =4)
 mean_dist = unlist(best_seed)[2]
 max_dist = unlist(best_seed)[3]
 
@@ -75,6 +90,7 @@ max_dist = unlist(best_seed)[3]
 # ==================================================================
 ntopics = 4
 SEED = unlist(best_seed)[1]  # For the paper, I use seed 206
+# For exclosures, seed = 152
 ldamodel = LDA(dat,ntopics, control = list(seed = SEED),method='VEM')
 
 
