@@ -16,6 +16,7 @@ library(reshape2)
 
 
 source('rodent_data_for_LDA.r')
+source('rodent_data_from_portalr.R')
 source('AIC_model_selection.R')
 source('LDA_figure_scripts.R')
 source('changepointmodel.r')
@@ -31,23 +32,18 @@ source('LDA-distance.R')
 #                           selected_species = c('BA','DM','DO','DS','NA','OL','OT','PB','PE','PF','PH','PI','PL','PM','PP','RF','RM','RO','SF','SH','SO'))
 
 # for exclosures: 
-source('rodent_data_from_portalr.R')
 
-dat = get_exclosure_rodents()
+dat = get_exclosure_rodents(time_or_plots = 'plots')
 
-datsums = vector(length =nrow(dat))
-for(i in 1:nrow(dat)) {
-  datsums[i] = sum(dat[i,])
-}
-
-dat = dat[ which(datsums >= 1), ]
 
 # dates to go with count data
 moondat = read.csv(text=getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/moon_dates.csv"),stringsAsFactors = F)
 moondat$date = as.Date(moondat$censusdate)
 
-period_dates = filter(moondat,period %in% rownames(dat)) %>% select(period,date)
+period_dates = filter(moondat,period %in% dat$period) %>% select(period,date)
 dates = period_dates$date
+
+dat = dat[,2:22]
 
 
 # ==================================================================
@@ -66,8 +62,6 @@ best_ntopic = repeat_VEM(dat,
 
 # histogram of how many seeds chose how many topics
 hist(best_ntopic$k,breaks=c(0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5),xlab='best # of topics', main='')
-# for 118:436, 3 and 4 topics are very close.
-
 
 # ==================================================================
 # 2b. how different is species composition of 4 community-types when LDA is run with different seeds?
@@ -79,6 +73,7 @@ seeds_4topics = best_ntopic %>%
   head(100) %>% 
   pull(SEED)
 
+# best seed for 4 is 
 # choose seed with highest log likelihood for all following analyses
 #    (also produces plot of community composition for 'best' run compared to 'worst')
 best_seed = calculate_LDA_distance(dat,seeds_4topics, k =4)
@@ -88,11 +83,11 @@ max_dist = unlist(best_seed)[3]
 # ==================================================================
 # 3. run LDA model
 # ==================================================================
-ntopics = 4
+ntopics = 3
 SEED = unlist(best_seed)[1]  # For the paper, I use seed 206
-# For exclosures, seed = 152
-ldamodel = LDA(dat,ntopics, control = list(seed = SEED),method='VEM')
-
+# For 4, seed = 14
+ldamodel4= LDA(dat,ntopics, control = list(seed = SEED),method='VEM')
+ldamodel3 = LDA(dat,ntopics, control = list(seed = SEED),method='VEM')
 
 # ==================================================================
 # 4. change point model 
@@ -140,9 +135,9 @@ mean(cp_results_rodent5$saved_lls * -2)+ 2*(3*(ntopics-1)*(5+1)+(5))
 # =================================================================
 
 # plot community compositions
-beta1 = community_composition(ldamodel)
+beta1_4 = community_composition(ldamodel4)
 # put columns in order of largest species to smallest
-composition = beta1[,c('NA','DS','SH','SF','SO','DO','DM','PB','PH','OL','OT','PL','PM','PE','PP','PI','RF','RM','RO','BA','PF')]
+composition = beta1_4[,c('NA','DS','SH','SF','SO','DO','DM','PB','PH','OL','OT','PL','PM','PE','PP','PI','RF','RM','RO','BA','PF')]
 plot_community_composition(composition,c(3,4,1,2))
 
 

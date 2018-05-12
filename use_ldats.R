@@ -1,0 +1,5 @@
+library(LDATS)
+source('rodent_data_from_portalr.R')
+rodents = get_exclosure_rodents()
+rodents = as.matrix(rodents)
+r_LDA = LDATS::LDA(data  = rodents, ntopics = 2:5, nseeds = 20, ncores = 4)
