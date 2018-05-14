@@ -1,5 +1,4 @@
 library(LDATS)
-library(tidyverse)
 library(RCurl)
 library(portalr)
 
@@ -20,7 +19,7 @@ control_time_LDA = LDATS::LDA(data = select(control_time, -date), ntopics =  c(2
 control_time_LDA_use = LDATS:::LDA_select(lda_models = control_time_LDA, LDA_eval = quote(AIC), correction = TRUE,
                                  LDA_selector = quote(min))
 # plot best lda topics (skip for now)
-# plot(control_time_LDA_use)
+plot(control_time_LDA_use)
 
 #### Run change point model ####
 # Prepare the covariate matrix with time, sin_year, and cos_year
