@@ -12,6 +12,7 @@ library(topicmodels)
 library(RCurl)
 library(multipanelfigure)
 library(reshape2)
+library(LDATS)
 
 
 
@@ -30,7 +31,7 @@ source('LDA-distance.R')
 
 ```{r}
 
-dat = get_exclosure_rodents(time_or_plots = 'plots')
+dat = get_exclosure_rodents(cont_or_exclosures = 'control', time_or_plots = 'plots')
 
 
 # dates to go with count data
@@ -49,59 +50,8 @@ dat = dat[,2:22]
 # ==================================================================
 # 2a. select number of topics
 # ==================================================================
+Select LDA model using LDATS
 
-# Fit a bunch of LDA models with different seeds
-# Only use even numbers for seeds because consecutive seeds give identical results
-seeds = 2*seq(200)
-
-# repeat LDA model fit and AIC calculation with a bunch of different seeds to test robustness of the analysis
-best_ntopic = repeat_VEM(dat,
-                         seeds,
-                         topic_min=2,
-                         topic_max=6)
-
-# histogram of how many seeds chose how many topics
-hist(best_ntopic$k,breaks=c(0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5),xlab='best # of topics', main='')
-
-```
-
-It seems to be split between k = 3 and k = 4. 
-
-Looking at the communities for the best seeds for k = 3 and k = 4: 
-
-
-```{r}
-
-seeds_4topics = best_ntopic %>% 
-  filter(k == 4) %>% 
-  arrange(aic) %>% 
-  head(100) %>% 
-  pull(SEED)
-best_seed_4 = calculate_LDA_distance(dat,seeds_4topics, k =4)
-
-seeds_3topics = best_ntopic  %>% 
-  filter(k == 3) %>% 
-  arrange(aic) %>% 
-  head(100) %>% 
-  pull(SEED)
-best_seed_3 = calculate_LDA_distance(dat,seeds_3topics, k =3)
-
-```
-
-### Run LDA and changepoint models
-
-Save these models rather than keeping them all in memory and re-running...
-
-#### Eight plots starting in 1988, 3 topics
-```{r}
-
-# LDA model
-
-SEED_3 = unlist(best_seed_3)[1]
-
-ntopics = 3
-
-ldamodel3 = LDA(dat,ntopics, control = list(seed = SEED_3),method='VEM')
 
 # Changepoint models
 

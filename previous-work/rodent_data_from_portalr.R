@@ -1,7 +1,9 @@
 library(tidyverse)
 library(portalr)
 
-get_exclosure_rodents = function(time_or_plots = 'time') {
+get_exclosure_rodents = function(cont_or_exclosures = 'control', time_or_plots = 'time') {
+  if (cont_or_exclosures == 'exclosure') {
+  
   if (tolower(time_or_plots) == 'plots') {
     length = 'all'
     startperiod = 118
@@ -12,6 +14,12 @@ get_exclosure_rodents = function(time_or_plots = 'time') {
     startperiod = 1
     standardeffort = 4
   }
+  }
+  if(cont_or_exclosures == 'control') {
+    length = 'all'
+    startperiod = 1
+    standardeffort = 8
+  }
   
   
   dat <- abundance(path = "repo", clean = FALSE, 
@@ -20,13 +28,22 @@ get_exclosure_rodents = function(time_or_plots = 'time') {
                    time = 'period', effort = TRUE, min_plots = 0)
   
   
-  dat2 <- dat %>%
-    filter(treatment == 'exclosure', period %in% startperiod:436,
+  if (cont_or_exclosures == 'exclosure') {
+    dat2 <- dat %>%
+    filter(treatment == cont_or_exclosures, period %in% startperiod:436,
            ntraps >= 1) %>%
     mutate(effort = 1) %>%
     group_by(period) %>%
     summarise_at(c(colnames(dat)[5:25], 'effort'), sum)
-  
+  } else {
+    dat2 <- dat %>%
+      filter(plot %in% c(2,4,8,11,12,14,17,22), 
+             period %in% startperiod:436,
+             ntraps >= 1) %>%
+      mutate(effort = 1) %>%
+      group_by(period) %>%
+      summarise_at(c(colnames(dat)[5:25], 'effort'), sum)
+  }
   
   datsums = vector(length =nrow(dat2))
   
