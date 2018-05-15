@@ -9,7 +9,7 @@ run_rodent_cpt = function(rodent_data = rodent_data, selected = selected,
   
   # Prepare arguments for LDATS
   weights <- LDATS::doc_weights(select(rodent_data, -date))
-  formula <- quote("sin_year + cos_year")
+  formula <- ~ sin_year + cos_year
   nchangepoints <- changepoints_vector
   nit = 1e3
   

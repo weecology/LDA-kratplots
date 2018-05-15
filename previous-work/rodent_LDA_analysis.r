@@ -15,7 +15,7 @@ library(multipanelfigure)
 library(reshape2)
 
 
-source('rodent_data_for_LDA.r')
+source('previous-work/rodent_data_for_LDA.r')
 source('rodent_data_from_portalr.R')
 source('AIC_model_selection.R')
 source('LDA_figure_scripts.R')
@@ -25,11 +25,11 @@ source('LDA-distance.R')
 # ===================================================================
 # 1. prepare rodent data
 # ===================================================================
-# for controls: 
-# dat = create_rodent_table(period_first = 1,
-#                           period_last = 436,
-#                           selected_plots = c(2,4,8,11,12,14,17,22),
-#                           selected_species = c('BA','DM','DO','DS','NA','OL','OT','PB','PE','PF','PH','PI','PL','PM','PP','RF','RM','RO','SF','SH','SO'))
+# for controls:
+dat = create_rodent_table(period_first = 1,
+                          period_last = 436,
+                          selected_plots = c(2,4,8,11,12,14,17,22),
+                          selected_species = c('BA','DM','DO','DS','NA','OL','OT','PB','PE','PF','PH','PI','PL','PM','PP','RF','RM','RO','SF','SH','SO'))
 
 # for exclosures: 
 
@@ -40,8 +40,14 @@ dat = get_exclosure_rodents(time_or_plots = 'plots')
 moondat = read.csv(text=getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/moon_dates.csv"),stringsAsFactors = F)
 moondat$date = as.Date(moondat$censusdate)
 
-period_dates = filter(moondat,period %in% dat$period) %>% select(period,date)
+erica_periods = c(1:436)
+
+period_dates = filter(moondat,period %in% erica_periods) %>% select(period,date)
 dates = period_dates$date
+
+dat = cbind(dates, dat)
+
+write.csv(dat, 'paper_dat.csv', row.names = FALSE)
 
 dat = dat[,2:22]
 
