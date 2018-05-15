@@ -14,10 +14,14 @@ source('functions/run_changepoint_model.R')
 # but a shorter timeseries)
 # treatment is control or exclosure
 
-rodent_data = get_rodent_lda_data(time_or_plots = 'time', treatment = 'control')
+# rodent_data = get_rodent_lda_data(time_or_plots = 'time', treatment = 'control')
+# using the same data as the paper:
+rodent_data = read.csv('paper_dat.csv', stringsAsFactors = FALSE, colClasses = c('Date', rep('integer', 21)))
+colnames(rodent_data)[1] <- 'date'
 
-selected = run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3),
-                          nseeds = 3, ncores = 4)
+
+selected = run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3, 4, 5),
+                          nseeds = 200, ncores = 4)
 
 changepoint = run_rodent_cpt(rodent_data = rodent_data, selected = selected,
                              changepoints_vector = c(2, 3, 4, 5))
