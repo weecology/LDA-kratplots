@@ -2,8 +2,8 @@ library(dplyr)
 library(portalr)
 library(RCurl)
 
-get_rodent_lda_data <- function(time_or_plots, treatment) {
-  selected_species = c('BA','DM','DO','DS','NA','OL','OT','PB','PE','PF','PH','PI','PL','PM','PP','RF','RM','RO','SF','SH','SO')
+get_rodent_lda_data <- function(time_or_plots, treatment, type) {
+  # selected_species = c('BA','DM','DO','DS','NA','OL','OT','PB','PE','PF','PH','PI','PL','PM','PP','RF','RM','RO','SF','SH','SO')
   
   if (tolower(time_or_plots) == 'plots') {
     length = 'all'
@@ -16,11 +16,11 @@ get_rodent_lda_data <- function(time_or_plots, treatment) {
   }
   
   dat <- abundance(path = "repo", clean = FALSE, 
-                   level = 'Plot', type = "Rodents", length = length, 
+                   level = 'Plot', type = type, length = length, 
                    unknowns = FALSE, fill_incomplete = F, shape = 'crosstab',
                    time = 'period', effort = TRUE, min_plots = 0)
+  selected_species = colnames(dat)[5:ncol(dat)]
   
-
   if (treatment == 'exclosure') {
     dat2 <- dat %>%
       filter(treatment == 'exclosure', period %in% startperiod:436,
