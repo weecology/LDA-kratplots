@@ -23,7 +23,7 @@ get_rodent_lda_data <- function(time_or_plots, treatment) {
 
   if (treatment == 'exclosure') {
     dat2 <- dat %>%
-      filter(treatment == treatment, period %in% startperiod:436,
+      filter(treatment == 'exclosure', period %in% startperiod:436,
              ntraps >= 1) %>%
       mutate(effort = 1) %>%
       group_by(period) %>%
