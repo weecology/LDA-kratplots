@@ -2,7 +2,7 @@
 title: "LDATS diagnostics/results exploration"
 author: "Renata Diaz"
 date: "5/28/2018"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
