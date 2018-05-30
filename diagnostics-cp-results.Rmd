@@ -1,0 +1,137 @@
+---
+title: "LDATS diagnostics/results exploration"
+author: "Renata Diaz"
+date: "5/28/2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(LDATS)
+```
+
+### Paper data
+
+```{r, eval = T}
+load('diagnostics_526.Rdata')
+```
+
+Plot the LDA...
+
+```{r, echo = F}
+plot(selected)
+```
+
+Six topics seems like a lot!
+
+Changepoint results:
+
+```{r, echo = T}
+
+summarize_cps(cps = changepoint$cps, prob = 0.95)
+
+```
+
+
+Changepoint diagnostics (not sure how to interpret these?)
+
+```{r, echo = T}
+changepoint$MCMCdiagnostics
+```
+
+
+Overall, it gets six topics and two changepoints, one in approximately 1989 and one in 2000 (both with large intervals). These line up with two of the changepoints from the paper. 
+
+I'm curious about the big differences between this analysis and what was found in the paper. They're using exactly the same data, but getting different numbers of topics and changepoints. 
+
+```{r}
+rm(rodent_data, changepoint, selected)
+```
+
+### Granivores-only, control plots, longer time series
+
+```{r}
+load('diagnostics_526_controltimegraniv.Rdata')
+```
+
+Plot the LDA:
+
+```{r, echo = F}
+plot(selected)
+```
+
+
+Changepoint results:
+
+```{r, echo = T}
+
+summarize_cps(cps = changepoint$cps, prob = 0.95)
+
+```
+
+
+Changepoint diagnostics:
+
+```{r, echo = T}
+changepoint$MCMCdiagnostics
+```
+
+
+With only granivores, we get only 5 topics and approximately the same changepoints.
+
+### Granivores-only, exclosure plots, longer time series
+
+```{r}
+load('diagnostics_time_excl_graniv.Rdata')
+```
+
+Plot the LDA:
+
+```{r, echo = F}
+plot(selected)
+```
+
+
+Changepoint results:
+
+```{r, echo = T}
+
+summarize_cps(cps = changepoint$cps, prob = 0.95)
+
+```
+
+
+Changepoint diagnostics:
+
+```{r, echo = T}
+changepoint$MCMCdiagnostics
+```
+
+### Granivores-only, exclosure plots, more plots and shorter time series
+
+```{r}
+load('diagnostics_plots_excl_graniv.Rdata')
+```
+
+Plot the LDA:
+
+```{r, echo = F}
+plot(selected)
+```
+
+
+Changepoint results:
+
+```{r, echo = T}
+
+summarize_cps(cps = changepoint$cps, prob = 0.95)
+
+```
+
+
+Changepoint diagnostics:
+
+```{r, echo = T}
+changepoint$MCMCdiagnostics
+```
+

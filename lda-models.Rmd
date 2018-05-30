@@ -1,0 +1,133 @@
+---
+title: "LDA models for different treatments"
+author: "Renata Diaz"
+date: "5/22/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = F} 
+library(LDATS)
+library(RCurl)
+library(portalr)
+
+# Functions to download data using portalr and prepare it for LDATS
+source('functions/get-data.R')
+source('functions/select_LDA.R')
+source('functions/lda_plot_function.R')
+```
+
+## All rodents
+### Control plots as used in original LDA paper
+
+```{r, echo = T}
+paper_rodent_data = read.csv('paper_dat.csv', stringsAsFactors = FALSE, colClasses = c('Date', rep('integer', 21)))
+colnames(paper_rodent_data)[1] <- 'date'
+
+
+paper_selected = run_rodent_LDA(rodent_data = paper_rodent_data, topics_vector = c(2, 3, 4, 5, 6),
+                          nseeds = 200, ncores = 4)
+
+plot(paper_selected)
+```
+
+### Controls plots from portalr, for the longest time series - all rodents
+
+```{r, echo = T}
+control_time_rodent_data = get_rodent_lda_data(time_or_plots = 'time', treatment = 'control', type = 'rodents')
+
+
+control_time_selected = run_rodent_LDA(rodent_data = control_time_rodent_data, topics_vector = c(2, 3, 4, 5, 6),
+                          nseeds = 200, ncores = 4)
+
+plot(control_time_selected)
+```
+
+
+### Controls plots from portalr, for the shorter time series - all rodents
+```{r, echo = T}
+control_plots_rodent_data = get_rodent_lda_data(time_or_plots = 'plots', treatment = 'control', type = 'rodents')
+
+
+control_plots_selected = run_rodent_LDA(rodent_data = control_plots_rodent_data, topics_vector = c(2, 3, 4, 5, 6),
+                          nseeds = 200, ncores = 4)
+
+plot(control_plots_selected)
+```
+
+
+### Exclosure plots for the longest time series (fewer plots) - all rodents
+```{r, echo = T}
+exclosure_time_rodent_data = get_rodent_lda_data(time_or_plots = 'time', treatment = 'exclosure', type = 'rodents')
+
+
+exclosure_time_selected = run_rodent_LDA(rodent_data = exclosure_time_rodent_data, topics_vector = c(2, 3, 4, 5, 6),
+                          nseeds = 200, ncores = 4)
+
+plot(exclosure_time_selected)
+```
+
+### Exclosure plots for the shorter time series (more plots) - all rodents
+```{r, echo = T}
+exclosure_plots_rodent_data = get_rodent_lda_data(time_or_plots = 'plots', treatment = 'exclosure', type = 'rodents')
+
+
+exclosure_plots_selected = run_rodent_LDA(rodent_data = exclosure_plots_rodent_data, topics_vector = c(2, 3, 4, 5, 6),
+                          nseeds = 200, ncores = 4)
+
+plot(exclosure_plots_selected)
+```
+
+
+
+## Granviores only
+
+### Controls plots from portalr, for the longest time series - only granivores
+
+```{r, echo = T}
+control_time_rodent_data = get_rodent_lda_data(time_or_plots = 'time', treatment = 'control', type = 'granivores')
+
+
+control_time_selected = run_rodent_LDA(rodent_data = control_time_rodent_data, topics_vector = c(2, 3, 4, 5, 6),
+                          nseeds = 200, ncores = 4)
+
+plot(control_time_selected)
+```
+
+
+### Controls plots from portalr, for the shorter time series - only granivores
+```{r, echo = T}
+control_plots_rodent_data = get_rodent_lda_data(time_or_plots = 'plots', treatment = 'control', type = 'granivores')
+
+
+control_plots_selected = run_rodent_LDA(rodent_data = control_plots_rodent_data, topics_vector = c(2, 3, 4, 5, 6),
+                          nseeds = 200, ncores = 4)
+
+plot(control_plots_selected)
+```
+
+
+### Exclosure plots for the longest time series (fewer plots) - only granivores
+```{r, echo = T}
+exclosure_time_rodent_data = get_rodent_lda_data(time_or_plots = 'time', treatment = 'exclosure', type = 'granivores')
+
+
+exclosure_time_selected = run_rodent_LDA(rodent_data = exclosure_time_rodent_data, topics_vector = c(2, 3, 4, 5, 6),
+                          nseeds = 200, ncores = 4)
+
+plot(exclosure_time_selected)
+```
+
+### Exclosure plots for the shorter time series (more plots) - only granivores
+```{r, echo = T}
+exclosure_plots_rodent_data = get_rodent_lda_data(time_or_plots = 'plots', treatment = 'exclosure', type = 'granivores')
+
+
+exclosure_plots_selected = run_rodent_LDA(rodent_data = exclosure_plots_rodent_data, topics_vector = c(2, 3, 4, 5, 6),
+                          nseeds = 200, ncores = 4)
+
+plot(exclosure_plots_selected)
+```
