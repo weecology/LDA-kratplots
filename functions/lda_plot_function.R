@@ -1,4 +1,3 @@
-cbPalette <- c( "#e19c02","#999999", "#56B4E9", "#0072B2", "#D55E00", "#F0E442", "#009E73", "#CC79A7")
 library(dplyr)
 library(ggplot2)
 
@@ -12,10 +11,12 @@ library(ggplot2)
 #' 
 #' 
 #' 
-plot_community_composition_gg = function(composition,topic_order,ylim,colors=cbPalette,title=T) {
-  topics = dim(composition)[1]
+plot_community_composition_gg = function(composition,topic_order,ylim,title=T) {
+  cbPalette <- c( "#e19c02","#999999", "#56B4E9", "#0072B2", "#D55E00", "#F0E442", "#009E73", "#CC79A7")
+  
+   topics = dim(composition)[1]
   community = c()
-  for (j in 1:6) {community=append(community,rep(j,length(composition[j,])))}
+  for (j in 1:topics) {community=append(community,rep(j,length(composition[j,])))}
   relabund = c()
   for (j in 1:topics) {relabund=append(relabund,composition[j,])}
   species=c()

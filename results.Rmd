@@ -1,0 +1,42 @@
+---
+title: "Results"
+author: "Renata Diaz"
+date: "5/30/2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(LDATS)
+library(dplyr)
+library(ggplot2)
+source('functions/lda_plot_function.R')
+```
+
+## Exclosure plots
+
+Granivores only, fewer plots (4), full time series. 
+
+```{r, eval = T}
+load('models/excl_time_gran.Rdata')
+```
+
+LDA model:
+
+```{r, echo = F}
+plot(selected)
+
+plots = plot_community_composition_gg(community_composition(selected), c(1:selected@k), ylim = c(0, 1))
+
+plots
+```
+
+
+Changepoint model:
+
+```{r, echo = F}
+summarize_cps(changepoint$cps, prob = 0.95)
+
+changepoint$MCMCdiagnostics
+
+```
