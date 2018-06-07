@@ -1,0 +1,66 @@
+---
+title: "Changepoint diagnostics"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(LDATS)
+```
+
+## Exclosures, 4 plots, full time series
+
+```{r excl time changepoint, echo = T}
+load('models/excl_time_gran.Rdata')
+
+summarize_cps(changepoint$cps, prob = 0.95)
+
+
+plot(1:ncol(changepoint$lls_full), changepoint$lls_full[1, ], type = 'n', main = 'Changepoint lls')
+lines(changepoint$lls_full[1, ], col = 'grey')
+lines(changepoint$lls_full[2,], col = 'grey')
+lines(changepoint$lls_full[3, ], col ='grey')
+lines(changepoint$lls_full[4, ], col = 'grey')
+lines(changepoint$lls_full[5, ], col = 'grey')
+lines(changepoint$lls_full[6, ], col = 'grey')
+lines(changepoint$lls, col = 'black')
+
+
+plot(1:nrow(changepoint$cps), changepoint$cps[,1 ], type ='n', main = 'Changepoint 1 estimates')
+lines(changepoint$cps[, 1], col = 'grey')
+lines(x = 1:nrow(changepoint$cps), y = rep(mean(changepoint$cps[,1]), nrow(changepoint$cps)), col = 'red')
+
+plot(1:nrow(changepoint$cps), changepoint$cps[,2 ], type ='n', main = 'Changepoint 2 estimates')
+lines(changepoint$cps[,2], col = 'grey')
+lines(x = 1:nrow(changepoint$cps), y = rep(mean(changepoint$cps[,2]), nrow(changepoint$cps)), col = 'red')
+```
+
+```{r, echo = F}
+rm(changepoint, rodent_data, selected)
+```
+
+## Controls, full time series
+
+```{r, echo = T}
+load('models/ctrl_time_gran.Rdata')
+
+summarize_cps(changepoint$cps, prob = 0.95)
+
+plot(1:ncol(changepoint$lls_full), changepoint$lls_full[1, ], type = 'n', main = 'Changepoint lls')
+lines(changepoint$lls_full[1, ], col = 'grey')
+lines(changepoint$lls_full[2,], col = 'grey')
+lines(changepoint$lls_full[3, ], col ='grey')
+lines(changepoint$lls_full[4, ], col = 'grey')
+lines(changepoint$lls_full[5, ], col = 'grey')
+lines(changepoint$lls_full[6, ], col = 'grey')
+lines(changepoint$lls, col = 'black')
+
+
+plot(1:nrow(changepoint$cps), changepoint$cps[,1 ], type ='n', main = 'Changepoint 1 estimates')
+lines(changepoint$cps[, 1], col = 'grey')
+lines(x = 1:nrow(changepoint$cps), y = rep(mean(changepoint$cps[,1]), nrow(changepoint$cps)), col = 'red')
+
+plot(1:nrow(changepoint$cps), changepoint$cps[,2 ], type ='n', main = 'Changepoint 2 estimates')
+lines(changepoint$cps[,2], col = 'grey')
+lines(x = 1:nrow(changepoint$cps), y = rep(mean(changepoint$cps[,2]), nrow(changepoint$cps)), col = 'red')
+```
