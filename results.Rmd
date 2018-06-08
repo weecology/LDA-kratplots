@@ -39,7 +39,6 @@ summarize_cps(changepoint$cps, prob = 0.95)
 
 ```
 
-For 1e4 iterations, the ESS for the 'best' model is ~ 40 and the autocorrelation is .58 and .81 for the two changepoints. It's also getting a range that extends well before 1977 for the first changepoint. This says to me that we need to run the model for more iterations or tinker with it some other way. 
 
 
 Here are some more diagnostics:

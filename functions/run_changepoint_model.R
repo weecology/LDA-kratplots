@@ -5,11 +5,8 @@ run_rodent_cpt = function(rodent_data = rodent_data, selected = selected,
   document_covariate_matrix = select(rodent_data, 'date') %>%
     mutate(time = (1970 + as.integer(julian(date)) / 365.25)) %>%
     mutate(sin_year = sin(time * 2 * pi), cos_year = cos(time * 2 * pi)) %>%
+    mutate(time = row_number()) %>%
     select(-date)
-  
-  # Change 'date' in rodent_data to 1,2,3...
-  rodent_data <- rodent_data %>%
-    mutate(date = row_number())
   
   # Prepare arguments for LDATS
   weights <- LDATS::doc_weights(select(rodent_data, -date))
