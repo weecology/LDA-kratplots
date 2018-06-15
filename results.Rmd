@@ -86,3 +86,40 @@ Here are some more diagnostics:
 changepoint$MCMCdiagnostics
 
 ```
+
+
+#### Exclosures, more plots and less time
+
+
+```{r, eval = T}
+load('models/excl_plots_gran_1e4.Rdata')
+```
+
+LDA model:
+
+```{r, echo = F}
+plot(selected)
+
+plots = plot_community_composition_gg(community_composition(selected), c(1:selected@k), ylim = c(0, 1))
+
+plots
+```
+
+
+Changepoint model:
+
+```{r, echo = F}
+summarize_cps(changepoint$cps, prob = 0.95)
+
+```
+
+
+
+Here are some more diagnostics:
+
+```{r, echo = F}
+
+changepoint$MCMCdiagnostics
+
+```
+
