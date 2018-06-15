@@ -18,7 +18,7 @@ source('functions/run_changepoint_model.R')
 #rodent_data = read.csv('paper_dat.csv', stringsAsFactors = FALSE, colClasses = c('Date', rep('integer', 21)))
 #colnames(rodent_data)[1] <- 'date'
  
-rodent_data = get_rodent_lda_data(time_or_plots = 'plots', treatment = 'exclosure', type = 'granivores')
+rodent_data = get_rodent_lda_data(time_or_plots = 'plots', treatment = 'control', type = 'granivores')
 
 
 selected = run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3, 4, 5, 6),
@@ -27,4 +27,4 @@ selected = run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3, 4, 
 changepoint = run_rodent_cpt(rodent_data = rodent_data, selected = selected,
                              changepoints_vector = c(2, 3, 4, 5, 6))
 
-save(rodent_data, selected, changepoint, file = 'models/excl_plots_gran_1e4.Rdata')
+save(rodent_data, selected, changepoint, file = 'models/ctrl_plots_gran_1e4.Rdata')
