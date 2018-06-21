@@ -2,11 +2,8 @@
 title: "exploring 6 21"
 author: "Renata Diaz"
 date: "6/21/2018"
-<<<<<<< HEAD
 output: pdf_document
-=======
-output: html_document
->>>>>>> 91bee08494bc910febe17d5b2d832b885836ee60
+
 ---
 
 ```{r setup, include=FALSE}
