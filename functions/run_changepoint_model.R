@@ -23,8 +23,9 @@ run_rodent_cpt = function(rodent_data = rodent_data, selected = selected,
   
   # Calculate deviance (?) for each changepoint model
   # This calculation is taken from previous_work/rodent_LDA_analysis.r line 131
-  changepoint_model_eval = function(changepoint_model, lda_model) {
-    saved_lls = changepoint_model$lls
+  changepoint_model_eval = function(changepoint_model, lda_model, which_chains) {
+      saved_lls = changepoint_model$lls_full[which_chains,]
+      
     ntopics = lda_model@k
     npoints =  changepoint_model$nchangepoints
     out = mean(saved_lls * -2) + 2*(3*(ntopics-1)*(npoints+1)+(npoints))
@@ -32,15 +33,18 @@ run_rodent_cpt = function(rodent_data = rodent_data, selected = selected,
   }
   
   # Select the model with the lowest deviance
-  changepoint_model_select = function(model_set) {
-    model_values = sapply(model_set, changepoint_model_eval, lda_model = selected)
+  changepoint_model_select = function(model_set, which_chains) {
+    model_values = sapply(model_set, changepoint_model_eval, lda_model = selected, which_chains = which_chains)
     out = model_set[[which(model_values == min(model_values))]]
     return(out)
   }
   
   
-  selected_changepoint_model = changepoint_model_select(mtss)
+  all_chains = changepoint_model_select(mtss, which_chains = 0:6)
+  focal_chain = changepoint_model_select(mtss, which_chains = 1)
   
-  return(selected_changepoint_model)
+  selected_changepoints_models = list(all_chains, focal_chain)
+  
+  return(selected_changepoint_models)
   
 }

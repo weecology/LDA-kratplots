@@ -131,6 +131,5 @@ changepoint$MCMCdiagnostics
 ```
 ## Looking at various chains in changepoint models
 
-This will take more memory, because I need to fiddle around with the select_changepoint_model procedure.
 
 
