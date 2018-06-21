@@ -4,16 +4,22 @@ library(RCurl)
 
 get_rodent_lda_data <- function(time_or_plots, treatment, type) {
   # selected_species = c('BA','DM','DO','DS','NA','OL','OT','PB','PE','PF','PH','PI','PL','PM','PP','RF','RM','RO','SF','SH','SO')
-  
-  if (tolower(time_or_plots) == 'plots') {
+  if (tolower(treatment) == 'exclosure') {
+    if (tolower(time_or_plots) == 'plots') {
+      length = 'all'
+      startperiod = 118
+      standardeffort = 8
+    } else if(tolower(time_or_plots) == 'time') {
+      length = 'longterm'
+      startperiod = 1
+      standardeffort = 4
+    }
+  } else if (tolower(treatment) == 'control') {
     length = 'all'
-    startperiod = 118
-    standardeffort = 8
-  } else if(tolower(time_or_plots) == 'time') {
-    length = 'longterm'
     startperiod = 1
-    standardeffort = 4
+    standardeffort = 8
   }
+  
   
   dat <- abundance(path = "repo", clean = FALSE, 
                    level = 'Plot', type = type, length = length, 
