@@ -22,7 +22,7 @@ run_rodent_cpt = function(rodent_data = rodent_data, selected = selected,
   #### Changepoint model selection #### 
   
   # Calculate deviance (?) for each changepoint model
-  # This calculation is taken from previous_work/paper/rodent_LDA_analysis.r line 113
+  # This calculation is taken from previous_work/rodent_LDA_analysis.r line 131
   changepoint_model_eval = function(changepoint_model, lda_model) {
     saved_lls = changepoint_model$lls
     ntopics = lda_model@k
