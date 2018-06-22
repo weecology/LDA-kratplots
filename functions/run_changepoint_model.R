@@ -43,7 +43,7 @@ run_rodent_cpt = function(rodent_data = rodent_data, selected = selected,
   all_chains = changepoint_model_select(mtss, which_chains = 0:6)
   focal_chain = changepoint_model_select(mtss, which_chains = 1)
   
-  selected_changepoints_models = list(all_chains, focal_chain)
+  selected_changepoint_models = list(all_chains, focal_chain)
   
   return(selected_changepoint_models)
   
