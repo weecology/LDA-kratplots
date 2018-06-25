@@ -1,0 +1,70 @@
+---
+title: "Comparing weights"
+author: "Renata Diaz"
+date: "6/25/2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(LDATS)
+library(dplyr)
+library(tidyr)
+source('functions/lda_plot_function.R')
+load('models/comparing_weights/ctrl_time_gran_wt1.Rdata')
+```
+
+# LDATS data and model - control plots - all weights = 1
+
+## LDA
+
+```{r plot LDA, echo = F}
+plot(selected)
+# 
+# plots = plot_community_composition_gg(community_composition(selected), c(1:selected@k), ylim = c(0, 1))
+
+```
+
+## Changepoint model
+
+```{r summarize cpt, echo = T}
+summarize_cps(changepoint$cps, prob = 0.95)
+
+```
+
+
+```{r plot cpt, echo = F}
+library(ggplot2)
+cps_gathered <- gather(as.data.frame(changepoint$cps), key = 'cpt', value = 'year_number', 1:4)
+
+cps_years <- select(rodent_data, date) %>%
+  mutate(date = format(as.Date(date, format="%d/%m/%Y"),'%Y')) %>%
+  mutate(date = as.numeric(date)) %>%
+  mutate(year_number = row_number()) 
+
+cps_gathered <- left_join(cps_gathered, cps_years, by = 'year_number')
+
+cps_hist <- ggplot(cps_gathered, aes(x=date, fill = cpt)) + 
+  geom_histogram() +
+  theme_bw() + 
+  labs(title = 'Changepoint estimates')
+
+cps_hist
+```
+
+
+From Christensen et al 2018:
+
+> Using these distributions, we located the 95% confidence interval for when each of these transitions occurred: December 1983-July 1984, October 1988-January 1996, September 1998- December 1999, and June 2009-September 2010
+
+So this model is locating qualitatively the same changepoints.
+
+### MCMC diagnostics
+
+```{r cpt diagnostics, eval =T}
+changepoint$MCMCdiagnostics
+
+```
+
+
+
