@@ -9,7 +9,6 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 library(LDATS)
 library(dplyr)
-library(ggplot2)
 source('functions/lda_plot_function.R')
 ```
 
@@ -39,13 +38,36 @@ summarize_cps(changepoint$cps, prob = 0.95)
 
 ```
 
-
-
 Here are some more diagnostics:
 
 ```{r, echo = F}
 
 changepoint$MCMCdiagnostics
+
+```
+
+```{r plot exlosure cpt, echo = F}
+library(ggplot2)
+library(tidyr)
+
+cps_gathered = tidyr::gather(as.data.frame(changepoint$cps), key = 'cpt', value = 'year_number', 1:2)
+
+cps_years <- select(rodent_data, date) %>%
+  mutate(date = format(as.Date(date, format="%d/%m/%Y"),'%Y')) %>%
+  mutate(date = as.numeric(date)) %>%
+  mutate(year_number = row_number()) 
+
+cps_gathered <- left_join(cps_gathered, cps_years, by = 'year_number')
+
+cps_hist <- ggplot(cps_gathered, aes(x=date, fill = cpt)) + 
+  geom_histogram() +
+  theme_bw() + 
+  labs(title = 'Changepoint estimates - exclosures')
+
+cps_hist
+
+cps_exclosures <- cps_gathered %>%
+  mutate(treatment = 'exclosure')
 
 ```
 
@@ -78,7 +100,6 @@ summarize_cps(changepoint$cps, prob = 0.95)
 ```
 
 
-
 Here are some more diagnostics:
 
 ```{r, echo = F}
@@ -87,74 +108,36 @@ changepoint$MCMCdiagnostics
 
 ```
 
+```{r plot control cpt, echo = F}
 
-#### Exclosures, more plots and less time
+cps_gathered = tidyr::gather(as.data.frame(changepoint$cps), key = 'cpt', value = 'year_number', 1:2)
 
+cps_years <- select(rodent_data, date) %>%
+  mutate(date = format(as.Date(date, format="%d/%m/%Y"),'%Y')) %>%
+  mutate(date = as.numeric(date)) %>%
+  mutate(year_number = row_number()) 
 
-```{r, eval = T}
-load('models/excl_plots_gran_1e4.Rdata')
-```
+cps_gathered <- left_join(cps_gathered, cps_years, by = 'year_number')
 
-LDA model:
+cps_hist <- ggplot(cps_gathered, aes(x=date, fill = cpt)) + 
+  geom_histogram() +
+  theme_bw() + 
+  labs(title = 'Changepoint estimates - controls')
 
-```{r, echo = F}
-plot(selected)
+cps_hist
 
-plots = plot_community_composition_gg(community_composition(selected), c(1:selected@k), ylim = c(0, 1))
-
-plots
-```
-
-
-Changepoint model:
-
-```{r, echo = F}
-summarize_cps(changepoint$cps, prob = 0.95)
-
-```
+cps_joint = cps_gathered %>%
+  mutate(treatment = 'control') %>%
+  bind_rows(cps_exclosures)
 
 
 
-Here are some more diagnostics:
+cps_joint_hist <- ggplot(cps_joint, aes(x=date, fill = treatment)) + 
+  geom_histogram(binwidth =1) +
+  theme_bw() + 
+  labs(title = 'Changepoint estimates')
 
-```{r, echo = F}
-
-changepoint$MCMCdiagnostics
-
-```
-
-#### Controls, more plots and less time
-
-
-```{r, eval = T}
-load('models/ctrl_plots_gran_1e4.Rdata')
-```
-
-LDA model:
-
-```{r, echo = F}
-plot(selected)
-
-plots = plot_community_composition_gg(community_composition(selected), c(1:selected@k), ylim = c(0, 1))
-
-plots
-```
-
-
-Changepoint model:
-
-```{r, echo = F}
-summarize_cps(changepoint$cps, prob = 0.95)
-
-```
-
-
-
-Here are some more diagnostics:
-
-```{r, echo = F}
-
-changepoint$MCMCdiagnostics
+cps_joint_hist
 
 ```
 
