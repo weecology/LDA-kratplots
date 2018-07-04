@@ -24,31 +24,9 @@ run_rodent_cpt = function(rodent_data = rodent_data, selected = selected,
     LDATS::MTS_prep(document_covariate_matrix) %>%
     LDATS::MTS_set(formula, nchangepoints, weights, nit) 
   
+  # Add deviance
+  mtss <- changepoint_model_eval_set(mtss)
+  
   return(mtss)
 
 }  
-#   #### Changepoint model selection #### 
-#   
-#   # Calculate deviance (?) for each changepoint model
-#   # This calculation is taken from previous_work/rodent_LDA_analysis.r line 131
-#   changepoint_model_eval = function(changepoint_model, lda_model) {
-#     saved_lls = changepoint_model$lls
-#     ntopics = lda_model@k
-#     npoints =  changepoint_model$nchangepoints
-#     out = mean(saved_lls * -2) + 2*(3*(ntopics-1)*(npoints+1)+(npoints))
-#     return(out)
-#   }
-#   
-#   # Select the model with the lowest deviance
-#   changepoint_model_select = function(model_set) {
-#     model_values = sapply(model_set, changepoint_model_eval, lda_model = selected)
-#     out = model_set[[which(model_values == min(model_values))]]
-#     return(out)
-#   }
-#   
-#   
-#   selected_changepoint_model = changepoint_model_select(mtss)
-#   
-#   return(selected_changepoint_model)
-#   
-# }
