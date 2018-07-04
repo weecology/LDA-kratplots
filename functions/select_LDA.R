@@ -1,7 +1,7 @@
 run_rodent_LDA <- function(rodent_data, topics_vector = c(2, 3, 4, 5), nseeds = 200, ncores = 4){
   
   #### Run LDAs ####
-  LDA_models = LDATS::parLDA(data = select(rodent_data, -date), ntopics =  topics_vector,
+  LDA_models = LDATS::parLDA(data = select(rodent_data, -timestep, -date), ntopics =  topics_vector,
                           nseeds = nseeds, ncores = ncores)
   
   #### Select the best LDA (AICc) ####

@@ -53,9 +53,15 @@ get_rodent_lda_data <- function(time_or_plots, treatment, type) {
   moondat = read.csv(text=getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/moon_dates.csv"),stringsAsFactors = F)
   moondat$date = as.Date(moondat$censusdate)
   
-  period_dates = filter(moondat,period %in% dat2$period) %>% select(period,date)
-  dat2[,1]= period_dates$date
-  colnames(dat2)[1] <-  'date'
+  period_dates = filter(moondat,period %in% dat2$period) %>% select(period,date, newmoonnumber)
+  
+  newmoon_offset = min(period_dates$newmoon) - 1
+  
+  dat2 <- dat2 %>%
+    mutate(date = period_dates$date, 
+           newmoon = period_dates$newmoonnumber,
+           timestep = newmoon - newmoon_offset)
+  
   
   return(dat2)
 }

@@ -7,7 +7,7 @@ library(portalr)
 source('functions/get-data.R')
 source('functions/select_LDA.R')
 source('functions/run_changepoint_model.R')
-
+source('functions/eval_changepoint_model.R')
 
 # argument time_or_plots says whether to prioritize time (longer time series) or plots (more plots,
 # but a shorter timeseries)
@@ -20,11 +20,18 @@ source('functions/run_changepoint_model.R')
  
 rodent_data = get_rodent_lda_data(time_or_plots = 'time', treatment = 'exclosure', type = 'granivores')
 
+time_data = select(rodent_data, period, date, newmoon, timestep)
+
+rodent_data = rodent_data %>%
+  select(-period, 
+         -newmoon)
 
 selected = run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3, 4, 5, 6),
                           nseeds = 200, ncores = 4)
 
-changepoint = run_rodent_cpt(rodent_data = rodent_data, selected = selected,
-                             changepoints_vector = c(2, 3, 4, 5, 6))
+changepoint_models = run_rodent_cpt(rodent_data = rodent_data, selected = selected,
+                             changepoints_vector = c(2, 3, 4, 5, 6), weights = 'prop')
 
-save(rodent_data, selected, changepoint, file = 'models/comparing_weights/excl_time_gran_wt1.Rdata')
+changepoint = select_changepoint_model(changepoint_models)
+
+save(rodent_data, time_data, selected, changepoint, changepoint_models, file = 'models/time_steps/excl_time_gran_wtprop.Rdata')
