@@ -34,4 +34,4 @@ changepoint_models = run_rodent_cpt(rodent_data = rodent_data, selected = select
 
 changepoint = select_changepoint_model(changepoint_models)
 
-save(rodent_data, time_data, selected, changepoint, changepoint_models, file = 'models/time_steps/excl_time_gran_wt1.Rdata')
+save(rodent_data, time_data, selected, changepoint, changepoint_models, file = 'models/time_steps/excl_time_gran_wtprop.Rdata')
