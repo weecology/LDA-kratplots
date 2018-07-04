@@ -27,15 +27,11 @@ rodent_data = rodent_data %>%
          -newmoon)
 
 selected = run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3, 4, 5, 6),
-                          nseeds = 20, ncores = 4)
+                          nseeds = 200, ncores = 4)
 
 changepoint_models = run_rodent_cpt(rodent_data = rodent_data, selected = selected,
-                             changepoints_vector = c(2, 3), weights = 'prop')
+                             changepoints_vector = c(2, 3, 4, 5, 6), weights = 'prop')
 
-model_deviances = list(ncpts = NULL, deviance = NULL)
-for(i in 1:length(changepoint_models)) {
-  model_deviances$ncpts[i] = changepoint_models[[i]]$nchangepoints
-  model_deviances$deviance[i] = changepoint_models[[i]]$deviance
-}
+changepoint = select_changepoint_model(changepoint_models)
 
-save(rodent_data, selected, changepoint_models, model_deviances, file = 'models/comparing_weights/excl_time_gran_wt1.Rdata')
+save(rodent_data, time_data, selected, changepoint, changepoint_models, file = 'models/time_steps/excl_time_gran_wt1.Rdata')

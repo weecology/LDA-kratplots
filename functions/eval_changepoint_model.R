@@ -16,5 +16,14 @@ changepoint_model_eval = function(changepoint_model, lda_model) {
     model_set[[i]]$deviance = changepoint_model_eval(model_set[[i]], lda_model = selected)
     }
     return(model_set)
-}
+  }
+  
+  select_changepoint_model = function(model_set) {
+    deviance = NULL
+    for(i in 1:length(model_set)) {
+      deviance[i] = changepoint_model_eval(model_set[[i]], lda_model = selected)
+    }
+    changepoint = model_set[[ which(deviance[i] == min(deviance[i]))]]
+    return(changepoint)
+  }
   
