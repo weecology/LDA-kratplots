@@ -30,8 +30,8 @@ selected = run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3, 4, 
                           nseeds = 200, ncores = 4)
 
 changepoint_models = run_rodent_cpt(rodent_data = rodent_data, selected = selected,
-                             changepoints_vector = c(2, 3, 4, 5, 6), weights = 'prop')
+                             changepoints_vector = c(2, 3, 4, 5, 6), weights = 'allone')
 
 changepoint = select_changepoint_model(changepoint_models)
 
-save(rodent_data, time_data, selected, changepoint, changepoint_models, file = 'models/time_steps/excl_time_gran_wtprop.Rdata')
+save(rodent_data, time_data, selected, changepoint, changepoint_models, file = 'models/time_steps/excl_time_gran_wt1.Rdata')

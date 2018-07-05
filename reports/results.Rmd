@@ -6,7 +6,13 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "/Users/renatadiaz/Documents/GitHub/weecology/LDA-kratplots")
 knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+
+```{r load packages and functions, include = F}
 library(LDATS)
 library(dplyr)
 source('functions/lda_plot_function.R')

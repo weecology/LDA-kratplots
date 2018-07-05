@@ -7,6 +7,8 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = '~Documents/GitHub/weecology/LDA-kratplots')
+
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -21,7 +23,7 @@ source('previous-work/LDA-distance.R')
 
 
 
-dat <- read.csv('paper_dat.csv', stringsAsFactors = F)
+dat <- read.csv('data/paper_dat.csv', stringsAsFactors = F)
 
 dates <- dat[,1]
 dat <- dat[,2:22]
