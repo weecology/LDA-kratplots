@@ -1,5 +1,5 @@
 run_rodent_cpt = function(rodent_data = rodent_data, selected = selected, 
-                          changepoints_vector = c(2, 3, 4, 5, 6), weights = 'prop') {
+                          changepoints_vector = c(2, 3, 4, 5, 6), weights = 'something') {
   #### Run change point model ####
   # Prepare the covariate matrix with time, sin_year, and cos_year
   document_covariate_matrix = select(rodent_data, 'date', 'timestep') %>%
@@ -11,7 +11,8 @@ run_rodent_cpt = function(rodent_data = rodent_data, selected = selected,
   # Prepare arguments for LDATS
  if(weights == 'prop') {
    weights <- LDATS::doc_weights(select(rodent_data, -date, -timestep))
- } else { 
+ } 
+ if (weights == 'allone'){ 
   weights <- rep(1, length(rodent_data$timestep))
  }
   

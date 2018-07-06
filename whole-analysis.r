@@ -18,7 +18,7 @@ source('functions/eval_changepoint_model.R')
 #rodent_data = read.csv('paper_dat.csv', stringsAsFactors = FALSE, colClasses = c('Date', rep('integer', 21)))
 #colnames(rodent_data)[1] <- 'date'
  
-rodent_data = get_rodent_lda_data(time_or_plots = 'time', treatment = 'exclosure', type = 'granivores')
+rodent_data = get_rodent_lda_data(time_or_plots = 'time', treatment = 'control', type = 'granivores')
 
 time_data = select(rodent_data, period, date, newmoon, timestep)
 
@@ -34,4 +34,4 @@ changepoint_models = run_rodent_cpt(rodent_data = rodent_data, selected = select
 
 changepoint = select_changepoint_model(changepoint_models)
 
-save(rodent_data, time_data, selected, changepoint, changepoint_models, file = 'models/time_steps/excl_time_gran_wt1.Rdata')
+save(rodent_data, time_data, selected, changepoint, changepoint_models, file = 'models/time_steps/ctrl_time_gran_wt1.Rdata')
