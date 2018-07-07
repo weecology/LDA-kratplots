@@ -13,8 +13,8 @@ library(LDATS)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-source('functions/lda_plot_function.R')
 source('functions/plots_from_ldats.R')
+source('functions/convert_summary_to_dates.R')
 ```
 
 # With weights all equal
@@ -60,7 +60,10 @@ plot_lda_edited(selected_excl, time_data_excl$date)
 #### Selected changepoint model for control plots
 
 ```{r cpt summary ctrl wt 1, echo = F}
-summarize_cps(changepoint_ctrl$cps, prob = 0.95)
+
+ctrl_cpt_summary_dates <- convert_summary_to_dates(changepoint_ctrl, time_data_ctrl)
+
+ctrl_cpt_summary_dates
 ```
 
 ```{r cpt plot ctrl wt 1, echo = F}
@@ -105,7 +108,10 @@ print(ctrl_deviances)
 #### Selected changepoint model for exclosure plots
 
 ```{r cpt summary excl wt 1, echo = F}
-summarize_cps(changepoint_excl$cps, prob = 0.95)
+
+excl_cpt_summary_dates <- convert_summary_to_dates(changepoint_excl, time_data_excl)
+
+excl_cpt_summary_dates
 ```
 
 ```{r cpt plot excl wt 1, echo = F}
@@ -190,7 +196,11 @@ plot_lda_edited(selected_excl, time_data_excl$date)
 #### Selected changepoint model for control plots
 
 ```{r cpt summary ctrl wt prop, echo = F}
-summarize_cps(changepoint_ctrl$cps, prob = 0.95)
+
+ctrl_cpt_summary_dates <- convert_summary_to_dates(changepoint_ctrl, time_data_ctrl)
+
+ctrl_cpt_summary_dates
+
 ```
 
 ```{r cpt plot ctrl wt prop, echo = F}
@@ -235,7 +245,10 @@ print(ctrl_deviances)
 #### Selected changepoint model for exclosure plots
 
 ```{r cpt summary excl wt prop, echo = F}
-summarize_cps(changepoint_excl$cps, prob = 0.95)
+
+excl_cpt_summary_dates <- convert_summary_to_dates(changepoint_excl, time_data_excl)
+
+excl_cpt_summary_dates
 ```
 
 ```{r cpt plot excl wt prop, echo = F}
