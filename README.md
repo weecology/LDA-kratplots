@@ -4,25 +4,24 @@
 Project examining community dynamics on Portal krat exclosure plots. Based off original project which focused on control plots only: https://github.com/emchristensen/Extreme-events-LDA
 This work expands on the original project by asking whether the rodent community present on the experimentally altered plots (altered by removing krats) experienced changes at the same time as the rodent community on the control plots. 
 
-## Main Analysis Scripts: 
-  * __rodent_LDA_analysis_exclosures.R__ main script for analyzing rodent community change using LDA
-  * __rodent_LDA_analysis.R__ main script from original project, using control plot rodent data
+## Main Analysis 
+  * __whole-analysis.R__ main script for analyzing rodent community change using LDA. Pulls data from PortalData repo, manipulates it for input to LDA model, runs LDA models and model selection, runs changepoint model and model selection
   
-## Auxiliary scripts:
-  * __AIC_model_selection.R__ contains functions for calculating AIC for different candidate LDA models
-  * __changepointmodel.r__ contains change-point model code
-  * __LDA-distance.R__ function for computing Hellinger distance analyses
-  * __rodent_data_for_LDA.R__ functions for creating Rodent_table_dat.csv
-  * __readResults.R__
-  * __RodentAbundancesAdjustable.R__
+## data folder
+  * __paper_dat.csv__ Portal rodent data that was used in the original Extreme-events-LDA project
   
-## Figure Scripts:
-  * __NDVI_figure.R__ creates a timeseries of NDVI at the site from 1984-2015, to show periods of low resources
-  * __abundance_plots.R__ contains code for plotting timeseries of total rodent abundance (Fig 2 in manuscript)
-  * __LDA_figure_scripts.R__ contains functions for making main plots in manuscript (Fig 1). Called from rodent_LDA_analysis_exclosures.R
+## functions folder 
+Contains scripts used by whole-analysis.R
+  * __convert_summary_to_dates.R__ function to convert output of changepoint model (in time steps) to dates for interpretation and plotting
+  * __eval_changepoint_model.R__ functions for evaluating candidate changepoint models and doing model selection
+  * __get-data.R__ function "get_rodent_lda_data" for extracting data from PortalData repo, using portalr package, and preparing it for input to LDA model
+  * __lda_plot_function.R__ functions for visualizing output of LDA model: barplots of species composition of topics (from previous work in Extreme-events-LDA)
+  * __plots_from_ldats.R__ functions for visualizing output of LDA model: timeseries (from LDATS package)
+  * __run_changepoint_model.R__ function for running changepoint model, potentially with multiple numbers of changepoints
+  * __select_LDA.R__ function "run_rodent_LDA" to run a bunch of LDA models and do model selection. Returns only the best LDA model.
   
-## Data files:
-  * _exclosures_dat.csv_ table of rodent data from krat exclosure plots, created in rodent_LDA_analysis_exclosures.R
-  * _exclosures_dates.csv_ table of dates corresponding to periods in exclosures_dat.csv
-  * _Monthly_Landsat_NDVI.csv_ NDVI data for portal from Landsat satellites
-  * _Rodent_table_dat.csv_ table of rodent data from control plots from original project
+## previous-work folder
+Contains code and data from Extreme-events-LDA repo (may or may not be completely up to date). 
+
+## reports folder
+Rmarkdown files and pdfs of results for facilitating discussion
