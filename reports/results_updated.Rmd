@@ -1,5 +1,5 @@
 ---
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -45,12 +45,12 @@ rm(rodent_data, time_data, changepoint, changepoint_models, selected)
 ## LDA models
 
 #### Control plots LDA
-```{r plot control LDA wt 1,echo = F, fig.height = 4, fig.width = 7}
+```{r plot control LDA wt 1,echo = F, fig.height = 3.5, fig.width = 7}
 plot_lda_edited(selected_ctrl, time_data_ctrl$date)
 ```
 
 #### Exclosures LDA
-```{r plot excl LDA wt 1, echo = F, fig.height = 4, fig.width = 7}
+```{r plot excl LDA wt 1, echo = F, fig.height = 3.5, fig.width = 7}
 plot_lda_edited(selected_excl, time_data_excl$date)
 ```
 
