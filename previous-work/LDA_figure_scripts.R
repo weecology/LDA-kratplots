@@ -6,7 +6,7 @@ library(dplyr)
 
 
 #cbPalette <- c( "#E69F00","#999999", "#56B4E9", "#0072B2", "#D55E00", "#F0E442", "#009E73", "#CC79A7")
-cbPalette <- c( "#e19c02","#999999", "#56B4E9", "#0072B2", "#D55E00", "#F0E442", "#009E73", "#CC79A7")
+#cbPalette <- c( "#e19c02","#999999", "#56B4E9", "#0072B2", "#D55E00", "#F0E442", "#009E73", "#CC79A7")
 
 
 
@@ -23,7 +23,7 @@ cbPalette <- c( "#e19c02","#999999", "#56B4E9", "#0072B2", "#D55E00", "#F0E442",
 #' 
 #' @return a ggplot object
 
-ltypes = c('solid','longdash','longdash','solid','solid')
+#ltypes = c('solid','longdash','longdash','solid','solid')
 
 
 plot_gamma = function(gamma_frame,ntopics,ylab='',colors=cbPalette) {
