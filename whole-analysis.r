@@ -20,6 +20,17 @@ source('functions/eval_changepoint_model.R')
  
 rodent_data = get_rodent_lda_data(time_or_plots = 'time', treatment = 'control', type = 'granivores')
 
+
+# rodent_data_control = get_rodent_lda_data(time_or_plots = 'time', treatment = 'control', type = 'granivores')
+# rodent_data_exclosures = get_rodent_lda_data(time_or_plots = 'time', treatment = 'exclosure', type = 'granivores')
+# 
+# rodent_data_control = rodent_data_control %>%
+#   filter(period %in% rodent_data_exclosures$period)
+# 
+# rodent_data = rodent_data_control[,2:16] + rodent_data_exclosures[,2:16]
+# rodent_data = cbind(rodent_data, rodent_data_control[, c(1, 17:19)])
+
+
 time_data = select(rodent_data, period, date, newmoon, timestep)
 
 rodent_data = rodent_data %>%
@@ -28,6 +39,8 @@ rodent_data = rodent_data %>%
 
 selected = run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3, 4, 5, 6),
                           nseeds = 200, ncores = 4)
+
+# save(rodent_data, selected, time_data, file = 'models/lda_c_and_e.Rdata')
 
 changepoint_models = run_rodent_cpt(rodent_data = rodent_data, selected = selected,
                              changepoints_vector = c(2, 3, 4, 5, 6), weights = 'allone')

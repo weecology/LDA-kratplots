@@ -1,0 +1,87 @@
+---
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "/Users/renatadiaz/Documents/GitHub/weecology/LDA-kratplots")
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r load packages and functions, include = F}
+library(LDATS)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+source('functions/plots_from_ldats.R')
+source('functions/lda_plot_function.R')
+source('functions/convert_summary_to_dates.R')
+```
+
+
+```{r load lda, echo = F}
+load('models/lda_c_and_e.Rdata')
+```
+
+## LDA model - with both control and exclosure plots
+
+
+```{r plot both LDA,echo = F, fig.height = 2, fig.width = 4}
+# plot_lda_edited(selected, time_data$date)
+
+
+ plots = plot_community_composition_gg(community_composition(selected), c(1:selected@k), ylim = c(0, 1))
+ 
+ plots
+```
+
+
+
+```{r load wts1, echo = F}
+load('models/time_steps/ctrl_time_gran_wt1.Rdata')
+
+rodent_data_ctrl = rodent_data
+time_data_ctrl = time_data
+changepoint_ctrl = changepoint
+changepoint_models_ctrl = changepoint_models
+selected_ctrl = selected
+
+rm(rodent_data, time_data, changepoint, changepoint_models, selected)
+
+load('models/time_steps/excl_time_gran_wt1.Rdata')
+
+rodent_data_excl = rodent_data
+time_data_excl = time_data
+changepoint_excl = changepoint
+changepoint_models_excl = changepoint_models
+selected_excl = selected
+
+rm(rodent_data, time_data, changepoint, changepoint_models, selected)
+
+```
+
+\newpage
+
+## LDA models - separated 
+
+#### Control plots LDA
+```{r plot control LDA wt 1,echo = F, fig.height = 2, fig.width = 4}
+# plot_lda_edited(selected_ctrl, time_data_ctrl$date)
+
+ctrl_plots = plot_community_composition_gg(community_composition(selected_ctrl), c(1:selected_ctrl@k), ylim = c(0, 1))
+ 
+ctrl_plots
+
+```
+
+\newpage
+
+#### Exclosures LDA
+```{r plot excl LDA wt 1, echo = F, fig.height = 2, fig.width = 4}
+# plot_lda_edited(selected_excl, time_data_excl$date)
+
+excl_plots = plot_community_composition_gg(community_composition(selected_excl), c(1:selected_excl@k), ylim = c(0, 1))
+ 
+excl_plots
+```
+
