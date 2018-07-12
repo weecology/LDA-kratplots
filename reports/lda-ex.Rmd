@@ -19,23 +19,6 @@ source('functions/convert_summary_to_dates.R')
 ```
 
 
-```{r load lda, echo = F}
-load('models/lda_c_and_e.Rdata')
-```
-
-## LDA model - with both control and exclosure plots
-
-
-```{r plot both LDA,echo = F, fig.height = 2, fig.width = 4}
-# plot_lda_edited(selected, time_data$date)
-
-
- plots = plot_community_composition_gg(community_composition(selected), c(1:selected@k), ylim = c(0, 1))
- 
- plots
-```
-
-
 
 ```{r load wts1, echo = F}
 load('models/time_steps/ctrl_time_gran_wt1.Rdata')
@@ -59,3 +42,14 @@ selected_excl = selected
 rm(rodent_data, time_data, changepoint, changepoint_models, selected)
 
 ```
+
+
+#### Exclosures LDA
+```{r plot excl LDA wt 1, echo = F, fig.height = 2, fig.width = 4}
+# plot_lda_edited(selected_excl, time_data_excl$date)
+
+excl_plots = plot_community_composition_gg(community_composition(selected_excl), c(1:selected_excl@k), ylim = c(0, 1))
+ 
+excl_plots
+```
+
