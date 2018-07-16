@@ -41,10 +41,10 @@ plot_lda_edited(selected, time_data$date, select_samples = which(rodent_data_all
 ```
 
 
-\newpage
-LDA on both, plotting all samples:
+<!-- \newpage -->
+<!-- LDA on both, plotting all samples: -->
 
-```{r plot all LDA, echo = F}
-plot_lda_edited(selected, time_data$date, select_samples = NULL)
-```
+<!-- ```{r plot all LDA, echo = F} -->
+<!-- plot_lda_edited(selected, time_data$date, select_samples = NULL) -->
+<!-- ``` -->
 
