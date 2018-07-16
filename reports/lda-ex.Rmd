@@ -45,8 +45,8 @@ rm(rodent_data, time_data, changepoint, changepoint_models, selected)
 
 
 #### Exclosures LDA
-```{r plot excl LDA wt 1, echo = F, fig.height = 2, fig.width = 4}
-# plot_lda_edited(selected_excl, time_data_excl$date)
+```{r plot excl LDA wt 1, echo = F}
+plot_lda_edited(selected_excl, time_data_excl$date)
 
 excl_plots = plot_community_composition_gg(community_composition(selected_excl), c(1:selected_excl@k), ylim = c(0, 1))
  

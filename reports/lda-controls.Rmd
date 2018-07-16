@@ -46,8 +46,8 @@ rm(rodent_data, time_data, changepoint, changepoint_models, selected)
 ## LDA models - separated 
 
 #### Control plots LDA
-```{r plot control LDA wt 1,echo = F, fig.height = 2, fig.width = 4}
-# plot_lda_edited(selected_ctrl, time_data_ctrl$date)
+```{r plot control LDA wt 1,echo = F}
+plot_lda_edited(selected_ctrl, time_data_ctrl$date)
 
 ctrl_plots = plot_community_composition_gg(community_composition(selected_ctrl), c(1:selected_ctrl@k), ylim = c(0, 1))
  

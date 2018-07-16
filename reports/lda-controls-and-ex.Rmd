@@ -26,8 +26,8 @@ load('models/lda_c_and_e.Rdata')
 ## LDA model - with both control and exclosure plots
 
 
-```{r plot both LDA,echo = F, fig.height = 2, fig.width = 4}
-# plot_lda_edited(selected, time_data$date)
+```{r plot both LDA,echo = F}
+plot_lda_edited(selected, time_data$date)
 
 
  plots = plot_community_composition_gg(community_composition(selected), c(1:selected@k), ylim = c(0, 1))
