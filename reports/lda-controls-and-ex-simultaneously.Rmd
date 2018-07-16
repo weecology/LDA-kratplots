@@ -1,0 +1,50 @@
+---
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "/Users/renatadiaz/Documents/GitHub/weecology/LDA-kratplots")
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r load packages and functions, include = F}
+library(LDATS)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+source('functions/plots_from_ldats.R')
+source('functions/lda_plot_function.R')
+source('functions/convert_summary_to_dates.R')
+```
+
+#### Adjustments July 16
+
+``` {r july 16, echo = F} 
+load('models/lda_c_and_e2.Rdata')
+```
+
+LDA on both, plotting just *control* samples:
+
+```{r plot control LDA, echo = F}
+plot_lda_edited(selected, time_data$date, select_samples = which(rodent_data_all$plot_type == 'control'))
+```
+
+
+\newpage
+LDA on both, plotting just *exclosure* samples:
+
+
+
+```{r plot ex LDA, echo = F}
+plot_lda_edited(selected, time_data$date, select_samples = which(rodent_data_all$plot_type == 'exclosure'))
+```
+
+
+\newpage
+LDA on both, plotting all samples:
+
+```{r plot all LDA, echo = F}
+plot_lda_edited(selected, time_data$date, select_samples = NULL)
+```
+

@@ -1,4 +1,4 @@
-plot_lda_edited <- function(x, observed_dates, ..., cols = NULL){
+plot_lda_edited <- function(x, observed_dates, ..., select_samples, cols = NULL){
   
   gamma <- x@gamma
   beta <- exp(x@beta)
@@ -8,11 +8,20 @@ plot_lda_edited <- function(x, observed_dates, ..., cols = NULL){
   beta_order <- apply(beta, 2, order)
   beta_sorted <- apply(beta, 2, sort)
   
+  if(!is.null(select_samples)) {
+    gamma <- gamma[select_samples, ]
+    nobs <- nrow(gamma)
+    
+  }
+  
   observed_dates <-  as.numeric(format(as.Date(observed_dates, format="%d/%m/%Y"),'%Y'))
+  
+  if(!is.null(select_samples)) observed_dates <- observed_dates[select_samples]
   
   gamma <- cbind(gamma, observed_dates)
   
   if (length(cols) == 0){
+    set.seed(12)
     cols <- rgb(runif(ntopics), runif(ntopics), runif(ntopics))
   }
   if (length(cols) == 1){
