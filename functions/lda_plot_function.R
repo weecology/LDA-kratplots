@@ -12,7 +12,7 @@ library(ggplot2)
 #' 
 #' 
 plot_community_composition_gg = function(composition,topic_order,ylim,title=T) {
-  cbPalette <- c( "#e19c02","#999999", "#56B4E9", "#0072B2", "#D55E00", "#F0E442", "#009E73", "#CC79A7")
+  cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
   
    topics = dim(composition)[1]
   community = c()

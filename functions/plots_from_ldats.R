@@ -1,3 +1,5 @@
+# switched to colorblind-friendly palette from http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette
+
 plot_lda_edited <- function(x, observed_dates, ..., select_samples, cols = NULL){
   
   gamma <- x@gamma
@@ -20,22 +22,27 @@ plot_lda_edited <- function(x, observed_dates, ..., select_samples, cols = NULL)
   
   gamma <- cbind(gamma, observed_dates)
   
-  if (length(cols) == 0){
-    set.seed(12)
-    cols <- rgb(runif(ntopics), runif(ntopics), runif(ntopics))
-  }
-  if (length(cols) == 1){
-    if (cols == "greys"){
-      ggg <- runif(ntopics, 0, 0.8)
-      cols <- rep(NA, ntopics)
-      for (i in 1:ntopics){
-        cols[i] <- rgb(ggg[i], ggg[i], ggg[i])
-      }
-    }
-  }
-  if (length(cols) > ntopics){
-    cols <- cols[1:ntopics]
-  }
+  # if (length(cols) == 0){
+  #   set.seed(12)
+  #   cols <- rgb(runif(ntopics), runif(ntopics), runif(ntopics))
+  # }
+  # if (length(cols) == 1){
+  #   if (cols == "greys"){
+  #     ggg <- runif(ntopics, 0, 0.8)
+  #     cols <- rep(NA, ntopics)
+  #     for (i in 1:ntopics){
+  #       cols[i] <- rgb(ggg[i], ggg[i], ggg[i])
+  #     }
+  #   }
+  # }
+  # if (length(cols) > ntopics){
+  #   cols <- cols[1:ntopics]
+  # }
+  
+  
+  cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+  cols <- cbPalette[1:ntopics]
   
   counter <- 1
   rect_mat <- matrix(NA, nrow = nwords * ntopics, ncol = 4)
