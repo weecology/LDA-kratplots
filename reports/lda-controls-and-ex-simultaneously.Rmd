@@ -18,13 +18,15 @@ source('functions/lda_plot_function.R')
 source('functions/convert_summary_to_dates.R')
 ```
 
-#### Adjustments July 16
+### LDA
 
-``` {r july 16, echo = F} 
-load('models/lda_c_and_e2.Rdata')
+``` {r load control, echo = F} 
+load('models/oneLDA_control.Rdata')
+load('models/oneLDA_exclosures.Rdata')
+
 ```
 
-LDA on both, plotting just *control* samples:
+#### *Control* samples:
 
 ```{r plot control LDA, echo = F}
 plot_lda_edited(selected, time_data$date, select_samples = which(rodent_data_all$plot_type == 'control'))
@@ -32,7 +34,7 @@ plot_lda_edited(selected, time_data$date, select_samples = which(rodent_data_all
 
 
 \newpage
-LDA on both, plotting just *exclosure* samples:
+#### *Exclosure* samples:
 
 
 
@@ -41,10 +43,108 @@ plot_lda_edited(selected, time_data$date, select_samples = which(rodent_data_all
 ```
 
 
-<!-- \newpage -->
-<!-- LDA on both, plotting all samples: -->
+\newpage
 
-<!-- ```{r plot all LDA, echo = F} -->
-<!-- plot_lda_edited(selected, time_data$date, select_samples = NULL) -->
-<!-- ``` -->
+### Changepoint models
+
+#### Changepoint for *controls*:
+
+
+```{r ctrl cpt summary, echo = F}
+
+ctrl_cpt_summary_dates <- convert_summary_to_dates(changepoint_control, time_data[which(rodent_data_all$plot_type =='control'), ])
+
+ctrl_cpt_summary_dates
+```
+
+
+```{r plot cpt control, echo = F}
+
+cps_gathered_ctrl = tidyr::gather(as.data.frame(changepoint_control$cps), key = 'cpt', value = 'year_number', 1:changepoint_control$nchangepoints)
+
+cps_years <- select(rodent_data_control, date) %>%
+  mutate(date = format(as.Date(date, format="%d/%m/%Y"),'%Y')) %>%
+  mutate(date = as.numeric(date)) %>%
+  mutate(year_number = row_number()) 
+
+cps_gathered_ctrl <- left_join(cps_gathered_ctrl, cps_years, by = 'year_number')
+
+cps_hist_ctrl <- ggplot(cps_gathered_ctrl, aes(x=date, fill = cpt)) + 
+  geom_histogram() +
+  theme_bw() + 
+  labs(title = 'Changepoint estimates - control')
+
+cps_hist_ctrl
+
+cps_ctrl <- cps_gathered_ctrl %>%
+  mutate(treatment = 'control')
+```
+
+
+#### Deviances for different numbers of changepoints - control
+```{r ctrl wt 1 deviances, echo = F}
+
+ctrl_deviances = list(NULL)
+
+for(i in 1:length(changepoint_models_control)){
+  ctrl_deviances[i] <- changepoint_models_control[[i]]$deviance
+  names(ctrl_deviances)[i] <- changepoint_models_control[[i]]$nchangepoints
+}
+
+
+print(ctrl_deviances)
+
+```
+
+\newpage
+
+#### Changepoint for *exclosures*:
+
+
+```{r excl cpt summary, echo = F}
+
+excl_cpt_summary_dates <- convert_summary_to_dates(changepoint_exclosures, time_data[which(rodent_data_all$plot_type =='exclosure'), ])
+
+excl_cpt_summary_dates
+```
+
+```{r cpt plot excl wt 1, echo = F}
+
+cps_gathered_excl = tidyr::gather(as.data.frame(changepoint_exclosures$cps), key = 'cpt', value = 'year_number', 1:changepoint_exclosures$nchangepoints)
+
+cps_years <- select(rodent_data_exclosures, date) %>%
+  mutate(date = format(as.Date(date, format="%d/%m/%Y"),'%Y')) %>%
+  mutate(date = as.numeric(date)) %>%
+  mutate(year_number = row_number()) 
+
+cps_gathered_excl <- left_join(cps_gathered_excl, cps_years, by = 'year_number')
+
+cps_hist_excl <- ggplot(cps_gathered_excl, aes(x=date, fill = cpt)) + 
+  geom_histogram() +
+  theme_bw() + 
+  labs(title = 'Changepoint estimates - exclosure')
+
+cps_hist_excl
+
+cps_excl <- cps_gathered_excl %>%
+  mutate(treatment = 'exclosure')
+
+```
+
+#### Deviances for different numbers of changepoints - exclosure
+```{r excl wt 1 deviances, echo = F}
+
+excl_deviances = list(NULL)
+
+for(i in 1:length(changepoint_models_exclosures)){
+  excl_deviances[i] <- changepoint_models_exclosures[[i]]$deviance
+  names(excl_deviances)[i] <- changepoint_models_exclosures[[i]]$nchangepoints
+}
+
+
+print(excl_deviances)
+
+```
+
+\newpage
 

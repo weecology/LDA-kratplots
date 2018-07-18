@@ -27,7 +27,7 @@ load('models/lda_c_and_e.Rdata')
 
 
 ```{r plot both LDA,echo = F}
-plot_lda_edited(selected, time_data$date)
+plot_lda_edited(selected, time_data$date, select_samples = NULL)
 
 
  plots = plot_community_composition_gg(community_composition(selected), c(1:selected@k), ylim = c(0, 1))
@@ -58,4 +58,28 @@ selected_excl = selected
 
 rm(rodent_data, time_data, changepoint, changepoint_models, selected)
 
+```
+
+\newpage
+
+#### Adjustments July 16
+
+``` {r july 16, echo = F} 
+load('models/lda_c_and_e2.Rdata')
+```
+
+LDA on both, plotting just *control* samples:
+
+```{r plot control LDA, echo = F}
+plot_lda_edited(selected, time_data$date, select_samples = which(rodent_data_all$plot_type == 'control'))
+```
+
+
+
+LDA on both, plotting just *exclosure* samples:
+
+
+
+```{r plot ex LDA, echo = F}
+plot_lda_edited(selected, time_data$date, select_samples = which(rodent_data_all$plot_type == 'exclosure'))
 ```
