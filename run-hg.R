@@ -1,7 +1,7 @@
 # install packages
 
-withr::with_libpaths(new = "~/local-packages", install_git('https://github.com/weecology/LDATS'))
-withr::with_libpaths(new = "~/local-packages", install_git('https://github.com/weecology/portalr'))
+withr::with_libpaths(new = "~/local-packages", devtools::install_git('https://github.com/weecology/LDATS'))
+withr::with_libpaths(new = "~/local-packages", devtools::install_git('https://github.com/weecology/portalr'))
 
 library(LDATS)
 library(RCurl)
