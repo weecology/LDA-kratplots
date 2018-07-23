@@ -1,7 +1,7 @@
 # install packages
 
-devtools::install_github(repo = 'weecology/LDATS')
-devtools::install_github(repo = 'weecology/portalr')
+devtools::install_github(repo = 'weecology/LDATS', local = T)
+devtools::install_github(repo = 'weecology/portalr', local = T)
 
 library(LDATS)
 library(RCurl)
