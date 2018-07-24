@@ -1,0 +1,176 @@
+library(portalr)
+library(dplyr)
+library(RCurl)
+create_rodent_table = function(period_first,period_last,selected_plots,selected_species) {#
+  # retrieve current version of rodent data#
+  rodents = read.csv(text=getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent.csv"),#
+                     na.strings=c(""), colClasses=c('tag'='character'), stringsAsFactors = FALSE)#
+  # extract desired data by period, plot, and species#
+  rod = filter(rodents, period>=period_first, period<=period_last,#
+               plot %in% selected_plots,#
+               species %in% selected_species)#
+  # create table of species counts by period#
+  r_table = table(rod$period,rod$species)#
+  # retrieve data on number of plots trapped per month#
+  trap_table = read.csv('https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent_trapping.csv')#
+  trap_table_controls = filter(trap_table, Plot %in% selected_plots)#
+  nplots_controls = aggregate(trap_table_controls$Sampled,by=list(Period = trap_table_controls$Period),FUN=sum)#
+  # adjust species counts by number of plots trapped that month#
+  r_table_adjusted = as.data.frame.matrix(r_table)#
+  for (n in 1:436) {#
+    #divide by number of control plots actually trapped (should be 8) and multiply by 8 to estimate captures as if all plots were trapped#
+    r_table_adjusted[n,] = round(r_table_adjusted[n,]/nplots_controls$x[n]*8)#
+  }#
+  write.csv(r_table_adjusted,'from_ericas.csv',sep=',',row.names = F)#
+  #return(r_table_adjusted)#
+}
+create_rodent_table(1,436,c(2,4,8,11,12,14,17,22),#
+                             selected_species = c('BA','DM','DO','DS','NA','OL','OT','PB','PE','PF','PH','PI','PL','PM','PP','RF','RM','RO','SF','SH','SO'))
+create_rodent_table = function(period_first,period_last,selected_plots,selected_species) {#
+  # retrieve current version of rodent data#
+  rodents = read.csv(text=getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent.csv"),#
+                     na.strings=c(""), colClasses=c('tag'='character'), stringsAsFactors = FALSE)#
+  # extract desired data by period, plot, and species#
+  rod = filter(rodents, period>=period_first, period<=period_last,#
+               plot %in% selected_plots,#
+               species %in% selected_species)#
+  # create table of species counts by period#
+  r_table = table(rod$period,rod$species)#
+  # retrieve data on number of plots trapped per month#
+  trap_table = read.csv('https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent_trapping.csv')#
+  trap_table_controls = filter(trap_table, plot %in% selected_plots)#
+  nplots_controls = aggregate(trap_table_controls$Sampled,by=list(period = trap_table_controls$period),FUN=sum)#
+  # adjust species counts by number of plots trapped that month#
+  r_table_adjusted = as.data.frame.matrix(r_table)#
+  for (n in 1:436) {#
+    #divide by number of control plots actually trapped (should be 8) and multiply by 8 to estimate captures as if all plots were trapped#
+    r_table_adjusted[n,] = round(r_table_adjusted[n,]/nplots_controls$x[n]*8)#
+  }#
+  write.csv(r_table_adjusted,'from_ericas.csv',sep=',',row.names = F)#
+  #return(r_table_adjusted)#
+}
+create_rodent_table(1,436,c(2,4,8,11,12,14,17,22),#
+                             selected_species = c('BA','DM','DO','DS','NA','OL','OT','PB','PE','PF','PH','PI','PL','PM','PP','RF','RM','RO','SF','SH','SO'))
+period_first <- 1
+period_first <- 1#
+period_last <- 436#
+selected_species <- c('BA','DM','DO','DS','NA','OL','OT','PB','PE','PF','PH','PI','PL','PM','PP','RF','RM','RO','SF','SH','SO')#
+selected_plots <- c(2,4,8,11,12,14,17,22)
+rodents = read.csv(text=getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent.csv"),
+na.strings=c(""), colClasses=c('tag'='character'), stringsAsFactors = FALSE)
+rod = filter(rodents, period>=period_first, period<=period_last,#
+               plot %in% selected_plots,#
+               species %in% selected_species)#
+  # create table of species counts by period#
+  r_table = table(rod$period,rod$species)
+trap_table = read.csv('https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent_trapping.csv')#
+  trap_table_controls = filter(trap_table, plot %in% selected_plots)#
+  nplots_controls = aggregate(trap_table_controls$Sampled,by=list(period = trap_table_controls$period),FUN=sum)
+trap_table_controls = filter(trap_table, plot %in% selected_plots)#
+  nplots_controls = aggregate(trap_table_controls$sampled,by=list(period = trap_table_controls$period),FUN=sum)
+r_table_adjusted = as.data.frame.matrix(r_table)
+for (n in 1:436) {#
+    #divide by number of control plots actually trapped (should be 8) and multiply by 8 to estimate captures as if all plots were trapped#
+    r_table_adjusted[n,] = round(r_table_adjusted[n,]/nplots_controls$x[n]*8)#
+  }
+write.csv(r_table_adjusted,'from_ericas.csv',sep=',',row.names = F)
+everything = readRDS('/Users/renatadiaz/Documents/GitHub/Extreme-events-LDA/exclosuresResults.rds')
+names = readRDS('/Users/renatadiaz/Documents/GitHub/Extreme-events-LDA/names.rds')
+for (i in 1:length(names)) {}
+head(everything[1])
+names = readRDS('/Users/renatadiaz/Documents/GitHub/Extreme-events-LDA/names.rds')
+> for (i in 1:length(names)) { names[i] <- everything[i]}
+for (i in 1:length(names)) { names[i] <- everything[i]}
+names[1]
+names = readRDS('/Users/renatadiaz/Documents/GitHub/Extreme-events-LDA/names.rds')
+names[1]
+dat = everything[1]
+head(dat)
+dat = unlist(everything)[1]
+dat = unlist(everything[1])
+head(dat)
+dat = unlist(everything)[1]
+head(dat)
+dat = everything[1]
+typeof(dat)
+dat <- unlist(dat)
+typeof(dat)
+head(dat)
+dat = everything[1]
+dat[1]
+dat <- dat[1]
+typeof(Dat)
+typeof(dat)
+head(dat)
+dat <- unlist(dat[1])
+dat
+head(dat)
+dat <- everything[[1]]
+dat
+typeof(dat)
+head(dat)
+names
+everything <- readRDS('/Users/renatadiaz/Documents/GitHub/Extreme-events-LDA/exclosuresResults.rds')
+dat <- everything[[1]]#
+seeds <- everything[[2]]#
+best_ntopic <- everything[[3]]#
+seeds_3topics <- everything[[4]]#
+best_seed <- everything[[5]]#
+mean_dist <- everything[[6]]#
+max_dist <- everything[[7]]#
+ntopics <- everything[[8]]#
+SEED <- everything[[9]]#
+ldamodel <- everything[[10]]#
+year_continuous <- everything[[11]]#
+x <- everything[[12]]#
+cp_results_rodent <- everything[[13]]#
+cp_results_rodent2 <- everything[[14]]#
+cp_results_rodent3 <- everything[[15]]#
+cp_results_rodent4 <- everything[[16]]#
+cp_results_rodent5 <- everything[[17]]#
+df_1 <- everything[[18]]#
+df_2 <- everything[[19]]#
+df_3 <- everything[[20]]#
+df_4 <- everything[[21]]#
+df_5 <- everything[[22]]
+head(df_1)
+rm(everything)
+library(‘multipanelfigure’)
+library('')
+library(multipanelfigure)
+install.packages('multipanelfigure')
+install.packages('gridGraphics')
+install.packages('magick')
+install.packages('gridGraphics')
+library(magick)
+install.packages('gridGraphics')
+install.packages('magick')
+install.packages('gridGraphics')
+require(installr)
+install.packages('installr')
+install.ImageMagick()
+install.packages('ImageMagick')
+??installr
+install.packages('animation')
+install.packages('magick')
+install.packages('gridGraphics')
+library(portalr)
+test = abundance(paty = 'repo', level = 'treatment', type = 'rodents', length = 'longterm', unknowns = F, incomplete = T, shape = 'list', time = 'period')
+test = abundance(path = 'repo', level = 'treatment', type = 'rodents', length = 'longterm', unknowns = F, incomplete = T, shape = 'list', time = 'period')
+head(test)
+??updateR
+library(LDATS)
+library(LDATS)
+library(LDATS)
+source('functions/get-data.R')
+setwd('/Users/renatadiaz/Documents/GitHub/weecology/LDA-kratplots')
+source('functions/get-data.R')
+source('functions/get-data.R')
+source('functions/select_LDA.R')
+source('functions/run_changepoint_model.R')
+rodent_data = read.csv('paper_dat.csv', stringsAsFactors = FALSE, colClasses = c('Date', rep('integer', 21)))
+colnames(rodent_data)[1] <- 'date'
+nseeds = 50, ncores = 4)
+selected = run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3, 4, 5), nseeds = 50, ncores = 4)
+changepoint = run_rodent_cpt(rodent_data = rodent_data, selected = selected, changepoints_vector = c(2, 3, 4, 5))
+changepoint = run_rodent_cpt(rodent_data = rodent_data, selected = selected, changepoints_vector = c(2, 3, 4, 5))
