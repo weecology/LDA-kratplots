@@ -28,7 +28,7 @@ selected <- run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3, 4,
 
 
 changepoint_models = run_rodent_cpt(rodent_data = rodent_data, selected = selected,
-                                            changepoints_vector = c(2, 3, 4, 5, 6), weights = 'allone')
+                                            changepoints_vector = c(2, 3, 4, 5, 6), samp_weights = 'allone')
 
 changepoint = select_changepoint_model(changepoint_models)
 
@@ -61,7 +61,7 @@ selected <- run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3, 4,
 
 
 changepoint_models = run_rodent_cpt(rodent_data = rodent_data, selected = selected,
-                                    changepoints_vector = c(2, 3, 4, 5, 6), weights = 'allone')
+                                    changepoints_vector = c(2, 3, 4, 5, 6), samp_weights = 'allone')
 
 changepoint = select_changepoint_model(changepoint_models)
 
