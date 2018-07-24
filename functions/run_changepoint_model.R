@@ -18,7 +18,7 @@ run_rodent_cpt = function(rodent_data = rodent_data, selected = selected,
   
   formula <- ~ sin_year + cos_year
   nchangepoints <- changepoints_vector
-  nit = 1e4
+  nit = 1e2
   
   # Run models
   mtss <- selected %>%
