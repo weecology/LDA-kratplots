@@ -1,0 +1,18 @@
+Loading required package: methods
+Loading required package: bitops
+The data in the default path `/home/diaz.renata` is either missing or out of date.
+Consider updating it using `download_observations()`.
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+slurmstepd: error: Job 23078393 exceeded memory limit (12587368 > 12582912), being killed
+slurmstepd: error: Exceeded job memory limit
+slurmstepd: error: *** JOB 23078393 ON c21b-s42 CANCELLED AT 2018-07-24T16:32:11 ***

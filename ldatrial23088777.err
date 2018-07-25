@@ -1,0 +1,16 @@
+Loading required package: methods
+Loading required package: bitops
+The data in the default path `/home/diaz.renata` is either missing or out of date.
+Consider updating it using `download_observations()`.
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+slurmstepd: error: *** JOB 23088777 ON c21a-s5 CANCELLED AT 2018-07-25T00:04:22 DUE TO TIME LIMIT ***
