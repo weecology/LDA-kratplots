@@ -12,7 +12,7 @@ library(ggplot2)
 #' 
 #' 
 plot_community_composition_gg = function(composition,topic_order,ylim,title=T) {
-  cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+  cbPalette <- c( "#e19c02","#999999", "#56B4E9", "#0072B2", "#D55E00", "#F0E442", "#009E73", "#CC79A7")
   
    topics = dim(composition)[1]
   community = c()
@@ -22,15 +22,13 @@ plot_community_composition_gg = function(composition,topic_order,ylim,title=T) {
   species=c()
   for (j in 1:topics) {species=append(species,colnames(composition))}
   comp = data.frame(community = community,relabund=relabund,species=factor(species, levels = colnames(composition)))
-  grass = comp %>%
-    filter(species %in% c('BA','PH','DO','DS','PF','PL','PM','RF','RO','RM','SH','SF','SO'))
+
   p = list()
   j = 1
   for (i in topic_order) {
     if (j == 1) {ylabel='% Composition'} else {ylabel=''}
     x <- ggplot(data=comp[comp$community==i,], aes(x=species, y=relabund)) +
       geom_bar(stat='identity',fill=cbPalette[i])  +
-      geom_bar(data=grass[grass$community==i,],aes(x=species,y=relabund),fill=cbPalette[i],stat='identity',alpha=0,size=1,color='black') +
       theme(axis.text=element_text(size=10),
             panel.background = element_blank(),
             panel.border=element_rect(colour='black',fill=NA),
