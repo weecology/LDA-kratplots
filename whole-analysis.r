@@ -54,7 +54,7 @@ selected_control <- selected
 selected_control@gamma <- selected_control@gamma[ which(rodent_data_all$plot_type == 'control'), ]
 
 changepoint_models_control = run_rodent_cpt(rodent_data = rodent_data_control, selected = selected_control,
-                             changepoints_vector = c(2, 3, 4, 5, 6), weights = 'allone')
+                             changepoints_vector = c(2, 3, 4, 5, 6), weights = 'allone', ncores = 8)
 
 changepoint_control = select_changepoint_model(changepoint_models_control)
 
