@@ -13,6 +13,3 @@ The following objects are masked from ‘package:base’:
     intersect, setdiff, setequal, union
 
 Loading in data version 1.54.0
-slurmstepd: error: Job 23111547 exceeded memory limit (67221212 > 67108864), being killed
-slurmstepd: error: Exceeded job memory limit
-slurmstepd: error: *** JOB 23111547 ON c22b-s27 CANCELLED AT 2018-07-26T15:41:29 ***
