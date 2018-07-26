@@ -11,9 +11,9 @@
 
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --mem=32gb   # Per processor memory
+#SBATCH --mem=64gb   # Per processor memory
 #SBATCH --cpus-per-task=4
-#SBATCH --time=12:00:00   # Walltime
+#SBATCH --time=24:00:00   # Walltime
 
 #Record the time and compute node the job ran on
 date;hostname; pwd
