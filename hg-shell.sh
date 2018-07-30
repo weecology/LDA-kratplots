@@ -11,7 +11,7 @@
 
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --mem=128gb   # Per processor memory
+#SBATCH --mem=90gb   # Per processor memory
 #SBATCH --cpus-per-task=4
 #SBATCH --time=48:00:00   # Walltime
 
