@@ -1,0 +1,18 @@
+Loading required package: bitops
+The data in the default path `/home/diaz.renata` is either missing or out of date.
+Consider updating it using `download_observations()`.
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Loading in data version 1.54.0
+Warning message:
+In .Internal(quit(save, status, runLast)) :
+  system call failed: Cannot allocate memory
