@@ -1,5 +1,6 @@
 library(LDATS)
 library(multipanelfigure)
+library(dplyr)
 
 source('functions/lda_plot_function.R')
 source('functions/plots_from_ldats.R')
@@ -90,6 +91,24 @@ fig_excl = combined_results_figure(selected,rodent_data,topic_order = c(5,4,1,2,
 fig_excl
 
 save_multi_panel_figure(fig_excl,'Results_fig_exclosures.tiff',dpi=600,compression='lzw')
+
+
+# ===========================================
+# comparing control and exclosure changepoints
+load("ctrl_time_gran_wt1.Rdata")
+ctrl_changepoint <- changepoint
+ctrl_dat <- rodent_data
+
+
+load("excl_time_gran_wt1.Rdata")
+excl_changepoint <- changepoint
+excl_dat <- rodent_data
+
+compare_chpt(ctrl_changepoint, ctrl_dat, excl_changepoint, excl_dat, 1/12)
+
+summarize_cps(ctrl_changepoint$cps, prob = 0.95)
+summarize_cps(excl_changepoint$cps, prob = 0.95)
+
 
 # =============================================
 # combined LDA: plot timeseries
