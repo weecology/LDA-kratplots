@@ -1,4 +1,4 @@
-
+library(ggplot2)
 #' @title changepoint histogram plot
 #' @description makes histogram plot of changepoints from changepoint model result
 #' 
