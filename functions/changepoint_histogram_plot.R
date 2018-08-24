@@ -5,8 +5,9 @@ library(ggplot2)
 #' @param changepoint output of changepoint model (select_changepoint_model() function)
 #' @param rodent_data data frame of original data (from get_rodent_lda_data() function)
 #' @param binwidth bin width of histogram (1 = 1 year)
+#' @param color color of histograms
 #'
-chpt_histogram_plot = function(changepoint, rodent_data, binwidth) {
+chpt_histogram_plot = function(changepoint, rodent_data, binwidth,color) {
   
   cps_gathered = tidyr::gather(as.data.frame(changepoint$cps), key = 'cpt', value = 'year_number', 1:changepoint$nchangepoints)
   
@@ -20,10 +21,10 @@ chpt_histogram_plot = function(changepoint, rodent_data, binwidth) {
   
   # from old code
   histoplot = ggplot(data = cps_gathered, aes(x=date_numeric)) +
-    geom_histogram(data=subset(cps_gathered,cpt=='V1'), aes(y=..count../sum(..count..)), binwidth=binwidth, fill='black', alpha=.4) +
-    geom_histogram(data=subset(cps_gathered,cpt=='V2'), aes(y=..count../sum(..count..)), binwidth=binwidth, fill='black', alpha=.4) +
-    geom_histogram(data=subset(cps_gathered,cpt=='V3'), aes(y=..count../sum(..count..)), binwidth=binwidth, fill='black', alpha=.4) +
-    geom_histogram(data=subset(cps_gathered,cpt=='V4'), aes(y=..count../sum(..count..)), binwidth=binwidth, fill='black', alpha=.4) +
+    geom_histogram(data=subset(cps_gathered,cpt=='V1'), aes(y=..count../sum(..count..)), binwidth=binwidth, fill=color, alpha=.4) +
+    geom_histogram(data=subset(cps_gathered,cpt=='V2'), aes(y=..count../sum(..count..)), binwidth=binwidth, fill=color, alpha=.4) +
+    geom_histogram(data=subset(cps_gathered,cpt=='V3'), aes(y=..count../sum(..count..)), binwidth=binwidth, fill=color, alpha=.4) +
+    geom_histogram(data=subset(cps_gathered,cpt=='V4'), aes(y=..count../sum(..count..)), binwidth=binwidth, fill=color, alpha=.4) +
     labs(x='',y='') +
     xlim(range(cps_years$date_numeric)) +
     scale_y_continuous(labels=c('0.00','0.20','0.40','0.60','0.80'),breaks = c(0,.2,.4,.6,.8)) +

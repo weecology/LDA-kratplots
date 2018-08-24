@@ -18,8 +18,9 @@ source('functions/changepoint_histogram_plot.R')
 #' @param rodent_data the original data that went into the lda model
 #' @param topic_order vector: order to plot topics in topic species composition part
 #' @param changepoint changepoint model object
+#' @param color color of histogram plot
 #'
-combined_results_figure = function(ldamodel,rodent_data,topic_order,changepoint) {
+combined_results_figure = function(ldamodel,rodent_data,topic_order,changepoint,color) {
   # topic composition bar plots
   ntopics = ldamodel@k
   dates = rodent_data$date
@@ -53,14 +54,14 @@ combined_results_figure = function(ldamodel,rodent_data,topic_order,changepoint)
   timeseries_plot = plot_component_communities(ldamodel,ntopics,xticks = dates)
   
   # plot changepoint results
-  histoplot = chpt_histogram_plot(changepoint, rodent_data, binwidth = .5)
+  histoplot = chpt_histogram_plot(changepoint, rodent_data, binwidth = .5,color)
   
   # combine into one figure
   (combined_fig 
     <- multi_panel_figure(
       width = c(5,200,5),
       height = c(100,60,60),
-      panel_label_type = 'none',
+      panel_label_type = 'upper-alpha',
       column_spacing = 0))
   combined_fig %<>% fill_panel(
     figure_spcomp,
@@ -80,14 +81,14 @@ combined_results_figure = function(ldamodel,rodent_data,topic_order,changepoint)
 
 
 load("ctrl_time_gran_wt1.Rdata")
-fig_ctrl = combined_results_figure(selected,rodent_data,topic_order = c(3,5,2,4,1),changepoint)
+fig_ctrl = combined_results_figure(selected,rodent_data,topic_order = c(3,5,2,4,1),changepoint,color='black')
 fig_ctrl
 
 save_multi_panel_figure(fig_ctrl,'Results_fig_controls.tiff',dpi=600,compression='lzw')
 #ggsave('Results_fig_controls2.png',plot=fig_ctrl,width=8,height=5)
 
 load("excl_time_gran_wt1.Rdata")
-fig_excl = combined_results_figure(selected,rodent_data,topic_order = c(5,4,1,2,3),changepoint)
+fig_excl = combined_results_figure(selected,rodent_data,topic_order = c(5,4,1,2,3),changepoint,color='red')
 fig_excl
 
 save_multi_panel_figure(fig_excl,'Results_fig_exclosures.tiff',dpi=600,compression='lzw')
