@@ -1,6 +1,7 @@
 library(LDATS)
 library(multipanelfigure)
 library(dplyr)
+library(topicmodels)
 
 source('functions/lda_plot_function.R')
 source('functions/plots_from_ldats.R')
@@ -26,6 +27,13 @@ combined_results_figure = function(ldamodel,rodent_data,topic_order,changepoint,
   dates = rodent_data$date
   
   composition = community_composition(ldamodel)
+  # change column names to modern taxonomy of species
+  colnames(composition)[colnames(composition)=='PB'] <- 'CB'
+  colnames(composition)[colnames(composition)=='PH'] <- 'CH'
+  colnames(composition)[colnames(composition)=='PP'] <- 'CP'
+  colnames(composition)[colnames(composition)=='PI'] <- 'CI'
+  # put columns in order of largest species to smallest
+  composition = composition[,c('DS','DO','DM','CB','CH','PL','PM','PE','CP','CI','RF','RM','RO','BA','PF')]
   comp_plots = plot_community_composition_gg(composition,
                                              topic_order = topic_order,
                                              ylim=c(0,1))
