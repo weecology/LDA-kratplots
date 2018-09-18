@@ -1,5 +1,4 @@
 library(dplyr)
-library(permute)
 
 source('functions/changepoint_histogram_plot.R')
 # comparing control and exclosure changepoints
@@ -66,40 +65,3 @@ full_table2 <- full_table2 %>% rowwise() %>% mutate(min=min(c(n_control,n_excl))
 # what % of total changepoint estimates are within the range of overlap
 
 (2*sum(full_table2$min))/(length(cp_ctrl2)+length(cp_excl2))
-
-
-
-# ====================================================================
-# some tests -- are the changepoints the same?
-# 
-# # Kolmogorov-Smirnoff test on 2010 changepoint from both communities
-# ks.test(cp_ctrl,cp_excl)
-# 
-# # wilcox test
-# wilcox.test(cp_ctrl,cp_excl,alternative='two.sided')
-# 
-# # permutation test (following https://cran.r-project.org/web/packages/permute/vignettes/permutations.pdf)
-# meanDif <- function(x,grp) {
-#   abs(mean(x[grp == "C"]) - mean(x[grp == "E"]))
-# }
-# 
-# ctrl_2010 = data.frame(cpt=cp_ctrl[1:1000], treatment=rep('C'))
-# excl_2010 = data.frame(cpt=cp_excl[1:1000], treatment=rep('E'))
-# 
-# test = rbind(ctrl_2010,excl_2010)
-# 
-# # permutations
-# Dchpoint <- numeric(length = 5000)
-# N <- nrow(test)
-# set.seed(42)
-# for(i in seq_len(length(Dchpoint) - 1)) {
-#   perm <- shuffle(N)
-#   Dchpoint[i] <- with(test, meanDif(cpt, treatment[perm]))
-#   }
-# Dchpoint[5000] <- with(test, meanDif(cpt, treatment))
-# 
-# hist(Dchpoint, breaks='Sturges',main = "",
-#      xlab = expression("Mean difference"))
-# rug(Dchpoint[5000], col = "red", lwd = 2)
-# 
-# # conclusion: the means are different. but the difference is only 2 months. so...
