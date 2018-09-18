@@ -88,14 +88,14 @@ combined_results_figure = function(ldamodel,rodent_data,topic_order,changepoint,
 
 
 
-load("ctrl_time_gran_wt1.Rdata")
+load("models/control_hg.Rdata")
 fig_ctrl = combined_results_figure(selected,rodent_data,topic_order = c(3,5,2,4,1),changepoint,color='black')
 fig_ctrl
 
 save_multi_panel_figure(fig_ctrl,'Results_fig_controls.tiff',dpi=600,compression='lzw')
-#ggsave('Results_fig_controls2.png',plot=fig_ctrl,width=8,height=5)
 
-load("excl_time_gran_wt1.Rdata")
+
+load("models/exclosure_hg.Rdata")
 fig_excl = combined_results_figure(selected,rodent_data,topic_order = c(5,4,1,2,3),changepoint,color='red')
 fig_excl
 
@@ -104,16 +104,16 @@ save_multi_panel_figure(fig_excl,'Results_fig_exclosures.tiff',dpi=600,compressi
 
 # ===========================================
 # comparing control and exclosure changepoints
-load("ctrl_time_gran_wt1.Rdata")
+load("models/control_hg.Rdata")
 ctrl_changepoint <- changepoint
 ctrl_dat <- rodent_data
 
 
-load("excl_time_gran_wt1.Rdata")
+load("models/exclosure_hg.Rdata")
 excl_changepoint <- changepoint
 excl_dat <- rodent_data
 
-compare_chpt(ctrl_changepoint, ctrl_dat, excl_changepoint, excl_dat, 1/12)
+compare_chpt(ctrl_changepoint, ctrl_dat, excl_changepoint, excl_dat, .5)
 
 summarize_cps(ctrl_changepoint$cps, prob = 0.95)
 summarize_cps(excl_changepoint$cps, prob = 0.95)

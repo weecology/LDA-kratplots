@@ -8,11 +8,11 @@ library(ggplot2)
 
 
 # ==============================================
-# Abundance figure in manuscript (Figure 2)
+# Plot total rodent abundance time series
 
 # total abundance
-load("ctrl_time_gran_wt1.Rdata")
-load("excl_time_gran_wt1.Rdata")
+load("models/control_hg.Rdata")
+#load("models/exclosure_hg.Rdata")
 dat <- rodent_data
 
 # data frame of abundance by period - restricted to only complete censuses
