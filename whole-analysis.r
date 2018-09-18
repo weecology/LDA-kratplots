@@ -1,7 +1,8 @@
 
 library(LDATS)
-library(RCurl)
+#library(RCurl)
 library(portalr)
+
 #### Get data #### 
 # Functions to download data using portalr and prepare it for LDATS
 source('functions/get-data.R')
@@ -17,74 +18,64 @@ source('functions/eval_changepoint_model.R')
 # using the same data as the paper:
 #rodent_data = read.csv('paper_dat.csv', stringsAsFactors = FALSE, colClasses = c('Date', rep('integer', 21)))
 #colnames(rodent_data)[1] <- 'date'
- 
+
+
+
+# rodent community on control plots -----
+
+# get data and prepare for models
 rodent_data = get_rodent_lda_data(time_or_plots = 'time', treatment = 'control', type = 'granivores')
+time_data = select(rodent_data, period, date, newmoon, timestep)
 
-
-rodent_data_control = get_rodent_lda_data(time_or_plots = 'time', treatment = 'control', type = 'granivores')
-rodent_data_exclosures = get_rodent_lda_data(time_or_plots = 'time', treatment = 'exclosure', type = 'granivores')
-
-rodent_data_control$plot_type = 'control'
-rodent_data_exclosures$plot_type = 'exclosure'
-
-rodent_data_control = rodent_data_control %>%
-   filter(period %in% rodent_data_exclosures$period)
-# 
-# rodent_data = rodent_data_control[,2:16] + rodent_data_exclosures[,2:16]
-# rodent_data = cbind(rodent_data, rodent_data_control[, c(1, 17:19)])
-
-rodent_data_all = rbind(rodent_data_control, rodent_data_exclosures)
-
-
-time_data = select(rodent_data_all, period, date, newmoon, timestep)
-
-rodent_data = rodent_data_all %>%
+rodent_data = rodent_data %>%
   select(-period, 
-         -newmoon,
-         -plot_type)
+         -newmoon)
 
+# run LDA
 selected = run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3, 4, 5, 6),
                           nseeds = 200, ncores = 4)
 
-save(rodent_data, rodent_data_all, selected, time_data, file = 'models/lda_c_and_e_sameLDA.Rdata')
+# run change point model
+changepoint_models = run_rodent_cpt(rodent_data = rodent_data, selected = selected,
+                                    changepoints_vector = c(2, 3, 4, 5, 6), samp_weights = 'allone')
 
-rodent_data_control <- rodent_data[ which(rodent_data_all$plot_type == 'control'), ]
+changepoint = select_changepoint_model(changepoint_models)
 
-selected_control <- selected
-selected_control@gamma <- selected_control@gamma[ which(rodent_data_all$plot_type == 'control'), ]
+# save output
+save(rodent_data,
+     time_data,
+     selected,
+     changepoint_models,
+     changepoint,
+     file = 'models/control_results.Rdata')
 
-changepoint_models_control = run_rodent_cpt(rodent_data = rodent_data_control, selected = selected_control,
-                             changepoints_vector = c(2, 3, 4, 5, 6), weights = 'allone', ncores = 8)
 
-changepoint_control = select_changepoint_model(changepoint_models_control)
+# analysis of rodent community on krat exclosure plots -----
 
-save(rodent_data, 
-     rodent_data_control,
-     rodent_data_all, 
-     time_data, 
-     selected, 
-     selected_control,
-     changepoint_control, 
-     changepoint_models_control, 
-     file = 'models/oneLDA_control.Rdata')
+# get data and prepare for models
+rm(rodent_data,time_data,selected,changepoint_models,changepoint)
 
-rm(changepoint_control, changepoint_models_control, selected_control)
+rodent_data = get_rodent_lda_data(time_or_plots = 'time', treatment = 'exclosure', type = 'granivores')
+time_data = select(rodent_data, period, date, newmoon, timestep)
 
-rodent_data_exclosures <- rodent_data[ which(rodent_data_all$plot_type == 'exclosure'), ]
-selected_exclosures <- selected
-selected_exclosures@gamma <- selected_exclosures@gamma[ which(rodent_data_all$plot_type == 'exclosure'), ]
+rodent_data = rodent_data %>%
+  select(-period, 
+         -newmoon)
 
-changepoint_models_exclosures = run_rodent_cpt(rodent_data = rodent_data_exclosures, selected = selected_exclosures,
-                                            changepoints_vector = c(2, 3, 4, 5, 6), weights = 'allone')
+# run LDA
+selected = run_rodent_LDA(rodent_data = rodent_data, topics_vector = c(2, 3, 4, 5, 6),
+                          nseeds = 200, ncores = 4)
 
-changepoint_exclosures = select_changepoint_model(changepoint_models_exclosures)
+# run change point model
+changepoint_models = run_rodent_cpt(rodent_data = rodent_data, selected = selected,
+                                    changepoints_vector = c(2, 3, 4, 5, 6), samp_weights = 'allone')
 
-save(rodent_data, 
-     rodent_data_exclosures,
-     rodent_data_all, 
-     time_data, 
-     selected, 
-     selected_exclosures,
-     changepoint_exclosures, 
-     changepoint_models_exclosures, 
-     file = 'models/oneLDA_exclosures.Rdata')
+changepoint = select_changepoint_model(changepoint_models)
+
+# save output
+save(rodent_data,
+     time_data,
+     selected,
+     changepoint_models,
+     changepoint,
+     file = 'models/exclosure_results.Rdata')
