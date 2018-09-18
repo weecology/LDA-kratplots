@@ -119,6 +119,41 @@ summarize_cps(ctrl_changepoint$cps, prob = 0.95)
 summarize_cps(excl_changepoint$cps, prob = 0.95)
 
 
+# ============================================
+# figure for exit seminar
+plot_gamma2 = function(gamma_frame,topic_order,ylab='',colors=cbPalette) {
+  ntopics = length(topic_order)
+  g = ggplot2::ggplot(gamma_frame, aes(x=date,y=relabund,colour=community)) + 
+    geom_line(size=1) +
+    scale_y_continuous(name=ylab,limits=c(0,1)) +
+    scale_x_date(name='') +
+    theme(axis.text=element_text(size=12),
+          axis.title=element_text(size=12),
+          panel.background = element_rect(colour='white',fill='white'),
+          panel.grid.major = element_line(colour = "gray90"),
+          panel.grid.minor = element_line(colour = 'gray90'),
+          panel.border=element_rect(colour='black',fill=NA),
+          legend.position='right') +
+    scale_colour_manual(name="Component\nCommunity",
+                        breaks=as.character(topic_order),
+                        values=colors[1:ntopics],
+                        labels=as.character(seq(ntopics)))
+  return(g)
+}
+plot_component_communities2 = function(ldamodel,ntopics,xticks,ylab='',topic_order = seq(ntopics)) {
+  cbPalette <- c( "#e19c02","#999999", "#56B4E9", "#0072B2", "#D55E00", "#F0E442", "#009E73", "#CC79A7")
+  z = posterior(ldamodel)
+  ldaplot = data.frame(date = c(), relabund = c(), community = c())
+  for (t in seq(ntopics)) {
+    ldaplot = rbind(ldaplot, data.frame(date=xticks ,relabund=z$topics[,t], community = as.factor(rep(t,length(z$topics[,1])))))
+  }
+  g = plot_gamma2(ldaplot, topic_order, ylab, colors=cbPalette)
+  return(g) 
+}
+
+ldatsplot = plot_component_communities2(selected,ntopics,xticks=dates,ylab='',topic_order = c(3,5,2,4,1))
+ldatsplot
+ggsave('C:/Users/EC/Desktop/lda_ts.png',ldatsplot,width=11,height=4)
 # =============================================
 # combined LDA: plot timeseries
 #load('models/lda_c_and_e_sameLDA.Rdata') #controls and krat exclosures in same model
