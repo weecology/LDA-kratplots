@@ -1,0 +1,68 @@
+---
+title: "Plants"
+author: "Renata Diaz"
+date: "10/22/2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(LDATS)
+library(portalr)
+library(ggplot2)
+source('functions/get-plant-data.R')
+source('functions/plot_plants.R')
+source('functions/plots_from_ldats.R')
+source('functions/convert_summary_to_dates.R')
+load('models/control_hg.Rdata')
+```
+
+# Plants timeseries
+
+```{r get plant data, echo = F}
+plants <- get_plant_data(time_or_plots = 'time', chosen_treatment = c('exclosure','control'))
+head(plants)
+```
+
+```{r plot plant timeseries, echo = F}
+
+ctrl_cpt_summary_dates <- convert_summary_to_dates(changepoint, time_data)
+
+ctrl_cpt_summary_dates
+
+cpt_estimates <- ctrl_cpt_summary_dates$Mean_date
+#cpt_estimates
+cpt_estimates <- zoo::as.yearmon(cpt_estimates, format = '%Y-%M-%D')
+
+cpt_estimates
+
+plant_plots <- make_plant_plots(plants)
+
+for(i in 1:4) {
+  plant_plots[[i]] <- add_cpt_estimates(plant_plots[[i]], cpt_estimates)
+}
+
+plant_plots
+
+
+```
+
+
+Zooming in on 1985-1995:
+
+``` {r 1990s plant plots, echo = F}
+plants_90s <- filter(plants, date > zoo::as.yearmon('1985-01-01'))
+plants_90s <- filter(plants_90s, date < zoo::as.yearmon('1996-01-01'))
+
+
+plant_plots90s <- make_plant_plots(plants_90s)
+
+for(i in 1:4) {
+  plant_plots90s[[i]] <- add_cpt_estimates(plant_plots90s[[i]], cpt_estimates[2])
+}
+
+plant_plots90s
+
+plants_90s[15:30,]
+
+```
