@@ -3,6 +3,12 @@ Plants
 Renata Diaz
 10/22/2018
 
+Looking at plant abundance & species richness data to see if there are any unusual events that might explain the 1990s changepoint, in particular.
+
+Takeaways so far: The 1990s don't appear to be out of the norm in terms of total abundance or richness for either winter or summer communities.
+
+Next up: look at particular species of interest (grasses, dominant species?)
+
 Plants timeseries
 =================
 
