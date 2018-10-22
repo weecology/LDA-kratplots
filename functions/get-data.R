@@ -17,7 +17,7 @@ get_rodent_lda_data <- function(time_or_plots, treatment, type) {
   
   dat <- abundance(path = "repo", clean = FALSE, 
                    level = 'Plot', type = type, plots = length, 
-                   unknowns = FALSE, fill_incomplete = F, shape = 'crosstab',
+                   unknowns = FALSE, shape = 'crosstab',
                    time = 'period', effort = TRUE, min_plots = 0)
   selected_species = colnames(dat)[5:ncol(dat)]
   
