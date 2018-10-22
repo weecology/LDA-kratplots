@@ -17,7 +17,7 @@ excl_dat <- rodent_data
 
 # plot them
 chpt_comparison = compare_chpt(ctrl_changepoint, ctrl_dat, excl_changepoint, excl_dat, binwidth=1/2)
-ggsave(filename='changepoint_comparison.tiff',chpt_comparison,width=6,height=2,units='in',dpi=600,compression='lzw')
+ggsave(filename='figures/changepoint_comparison.tiff',chpt_comparison,width=6,height=2,units='in',dpi=600,compression='lzw')
 
 # we're interested in the 4th changepoint from controls and the 2nd from exclosures
 cp_ctrl = ctrl_changepoint$cps[,4]

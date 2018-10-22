@@ -92,14 +92,14 @@ load("models/control_hg.Rdata")
 fig_ctrl = combined_results_figure(selected,rodent_data,topic_order = c(3,5,2,4,1),changepoint,color='black')
 fig_ctrl
 
-save_multi_panel_figure(fig_ctrl,'Results_fig_controls.tiff',dpi=600,compression='lzw')
+save_multi_panel_figure(fig_ctrl,'figures/Results_fig_controls.tiff',dpi=600,compression='lzw')
 
 
 load("models/exclosure_hg.Rdata")
 fig_excl = combined_results_figure(selected,rodent_data,topic_order = c(5,4,1,2,3),changepoint,color='red')
 fig_excl
 
-save_multi_panel_figure(fig_excl,'Results_fig_exclosures.tiff',dpi=600,compression='lzw')
+save_multi_panel_figure(fig_excl,'figures/Results_fig_exclosures.tiff',dpi=600,compression='lzw')
 
 
 # ===========================================
