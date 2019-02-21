@@ -115,8 +115,8 @@ excl_dat <- rodent_data
 
 compare_chpt(ctrl_changepoint, ctrl_dat, excl_changepoint, excl_dat, .5)
 
-summarize_cps(ctrl_changepoint$cps, prob = 0.95)
-summarize_cps(excl_changepoint$cps, prob = 0.95)
+LDATS::summarize_rhos(ctrl_changepoint$cps)
+LDATS::summarize_rhos(excl_changepoint$cps)
 
 
 # ============================================
