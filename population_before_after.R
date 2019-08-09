@@ -22,7 +22,8 @@ species_pop_change = function(dat_long, cp_timestep, interval) {
   dat_c_1$timeperiod = rep(NA)
   dat_c_1$timeperiod = ifelse(dat_c_1$timestep<cp_timestep, 1, 2)
   dat_c_1$timeperiod = as.factor(dat_c_1$timeperiod)
-  print(ggplot(dat_c_1, aes(x=timestep, y=abundance, color=species)) +
+  print(ggplot(dat_c_1, aes(x=timestep, y=abundance, color=species, fill=species)) +
+    #geom_bar(stat='identity') +
     geom_line() +
     geom_vline(xintercept=cp_timestep))
   
@@ -50,7 +51,7 @@ species_pop_change = function(dat_long, cp_timestep, interval) {
 
 # load rodent data from portalr
 dat = get_rodent_lda_data(time_or_plots = 'time', treatment = 'control', type = 'granivores')
-dat_long = gather(dat, species, abundance, BA:RO)
+dat_long = tidyr::gather(dat, species, abundance, BA:RO)
 
 # load results of LDA/changepoint model to get changepoint locations -- control plots (these numbers are with reference to timestep from dat)
 load("models/control_hg.Rdata")
@@ -61,7 +62,7 @@ c_cp2 = c_summary$Mean[2]
 c_cp3 = c_summary$Mean[3]
 c_cp4 = c_summary$Mean[4]
 
-interval = 36 # number of months to compare before/after changepoint
+interval = 24 # number of months to compare before/after changepoint
 
 species_pop_change(dat_long, c_cp1, interval)
 species_pop_change(dat_long, c_cp2, interval)
@@ -70,7 +71,7 @@ species_pop_change(dat_long, c_cp4, interval)
 
 # load results of LDA/changepoint model to get changepoint locations -- krat exclosure plots
 dat_excl = get_rodent_lda_data(time_or_plots = 'time', treatment = 'exclosure', type = 'granivores')
-dat_long_excl = gather(dat_excl, species, abundance, BA:RO)
+dat_long_excl = tidyr::gather(dat_excl, species, abundance, BA:RO)
 
 load("models/exclosure_hg.Rdata")
 excl_changepoint <- changepoint
